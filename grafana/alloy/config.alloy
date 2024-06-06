@@ -49,7 +49,7 @@ loki.relabel "journal" {
 loki.source.journal "read" {
     forward_to = [loki.write.grafanacloud.receiver]
     relabel_rules = loki.relabel.journal.rules
-    matches = "_SYSTEMD_UNIT=quilibrium.service _SYSTEMD_UNIT=quilibrium_watchdog.service"
+    matches = "_SYSTEMD_UNIT=quilibrium.service"
 }
 
 loki.write "grafanacloud" {
