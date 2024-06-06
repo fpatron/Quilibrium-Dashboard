@@ -1,0 +1,64 @@
+logging {
+        level = "info"
+}
+
+prometheus.exporter.unix "localhost" {
+    disable_collectors = [ "arp", "bonding", "btrfs", "conntrack", "drbd", "edac", "fibrechannel", "infiniband", "ipvs", "logind", "mountstats", "nfs", "ntp", "powersupplyclass", "rapl", "schedstat", "softirqs", "tapestats", "textfile", "timex", "zfs" ]
+}
+
+discovery.relabel "node_exporter" {
+        targets = prometheus.exporter.unix.localhost.targets
+        rule {
+                action       = "replace"
+                target_label = "job"
+                replacement  = "integrations/quilibrium_exporter"
+        }
+}
+
+prometheus.scrape "default" {
+    scrape_interval = "1m"
+    targets    = discovery.relabel.node_exporter.output
+    forward_to = [
+        prometheus.remote_write.grafanacloud.receiver,
+    ]
+}
+
+prometheus.remote_write "grafanacloud" {
+  endpoint {
+    url = "<PROMETHEUS_ENDPOINT>"
+
+    basic_auth {
+      username = "<PROMETHEUS_USERNAME>"
+      password = "<PROMETHEUS_PASSWORD>"
+    }
+  }
+}
+
+loki.relabel "journal" {
+  forward_to = []
+  rule {
+    source_labels = ["__journal__systemd_unit"]
+    target_label  = "unit"
+  }
+  rule {
+    source_labels = ["__journal__hostname"]
+    target_label  = "hostname"
+  }
+}
+
+loki.source.journal "read" {
+    forward_to = [loki.write.grafanacloud.receiver]
+    relabel_rules = loki.relabel.journal.rules
+    matches = "_SYSTEMD_UNIT=quilibrium.service _SYSTEMD_UNIT=quilibrium_watchdog.service"
+}
+
+loki.write "grafanacloud" {
+  endpoint {
+    url = "<LOKI_ENDPOINT>"
+
+    basic_auth {
+      username = "<LOKI_USERNAME>"
+      password = "<LOKI_PASSWORD>"
+    }
+  }
+}
