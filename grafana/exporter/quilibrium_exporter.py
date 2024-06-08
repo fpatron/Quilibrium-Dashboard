@@ -8,7 +8,8 @@ import os
 app = Flask(__name__)
 
 # Define the working directory
-working_directory = f'/home/{os.getlogin()}/quilibrium/ceremonyclient/node'
+username = os.getlogin()
+working_directory = f'/home/{username}/quilibrium/ceremonyclient/node'
 
 # Define the registry
 registry = CollectorRegistry()
@@ -25,11 +26,9 @@ proof_time_taken_metric = Gauge('quilibrium_proof_time_taken', 'Proof time taken
 # Function to fetch data from command
 def fetch_data_from_node():
     try:
-        # Execute the command and capture the output
         result = subprocess.run(['./node', '-node-info'], cwd=working_directory, capture_output=True, text=True)
         output = result.stdout
         
-        # Extract the required data using regular expressions
         peer_id_match = re.search(r'Peer ID: (\S+)', output)
         peer_id = peer_id_match.group(1) if peer_id_match else 'unknown'
         
@@ -44,7 +43,6 @@ def fetch_data_from_node():
         
         hostname = socket.gethostname()
         
-        # Update your metrics with the fetched data
         peer_score_metric.labels(peer_id=peer_id, hostname=hostname).set(peer_score)
         max_frame_metric.labels(peer_id=peer_id, hostname=hostname).set(max_frame)
         unclaimed_balance_metric.labels(peer_id=peer_id, hostname=hostname).set(unclaimed_balance)
@@ -66,7 +64,7 @@ def fetch_data_from_logs(peer_id, hostname):
         proof_increment = None
         proof_time_taken = None
 
-        for line in reversed(output):  
+        for line in reversed(output):
             if peer_store_count is None and 'peers in store' in line:
                 peer_store_count_match = re.search(r'"peer_store_count":(\d+)', line)
                 network_peer_count_match = re.search(r'"network_peer_count":(\d+)', line)
