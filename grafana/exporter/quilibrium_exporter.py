@@ -8,8 +8,8 @@ import os
 app = Flask(__name__)
 
 # Define the working directory
-username = os.getlogin()
-working_directory = f'/home/{username}/quilibrium/ceremonyclient/node'
+current_dir = os.path.dirname(os.path.abspath(__file__))
+working_directory = f'{current_dir}/../ceremonyclient/node'
 
 # Define the registry
 registry = CollectorRegistry()
