@@ -912,7 +912,7 @@
         "sortBy": [
           {
             "desc": true,
-            "displayName": "Unclaimed"
+            "displayName": "Balance (Q)"
           }
         ]
       },
@@ -980,6 +980,55 @@
           "legendFormat": "__auto",
           "range": false,
           "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "last_over_time(quilibrium_unclaimed_balance [1h]) * $quil_price",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * $quil_price",
+          "format": "table",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "F",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * 30 * $quil_price",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "G"
         }
       ],
       "title": "Quilibrium",
@@ -999,52 +1048,83 @@
               "Time 2": true,
               "Time 3": true,
               "Time 4": true,
+              "Time 5": true,
+              "Time 6": true,
+              "Time 7": true,
               "__name__ 1": true,
               "__name__ 2": true,
               "instance 1": true,
               "instance 2": true,
               "instance 3": true,
               "instance 4": true,
+              "instance 5": true,
+              "instance 6": true,
+              "instance 7": true,
               "job 1": true,
               "job 2": true,
               "job 3": true,
               "job 4": true,
+              "job 5": true,
+              "job 6": true,
+              "job 7": true,
               "peer_id 2": true,
               "peer_id 3": true,
-              "peer_id 4": true
+              "peer_id 4": true,
+              "peer_id 5": true,
+              "peer_id 6": true,
+              "peer_id 7": true
             },
             "includeByName": {},
             "indexByName": {
               "Time 1": 1,
-              "Time 2": 10,
-              "Time 3": 15,
-              "Time 4": 19,
-              "Value #A": 9,
+              "Time 2": 13,
+              "Time 3": 18,
+              "Time 4": 22,
+              "Time 5": 26,
+              "Time 6": 30,
+              "Time 7": 34,
+              "Value #A": 12,
               "Value #B": 6,
               "Value #C": 7,
               "Value #D": 8,
+              "Value #E": 9,
+              "Value #F": 10,
+              "Value #G": 11,
               "__name__ 1": 2,
-              "__name__ 2": 11,
+              "__name__ 2": 14,
               "hostname": 0,
               "instance 1": 3,
-              "instance 2": 12,
-              "instance 3": 16,
-              "instance 4": 20,
+              "instance 2": 15,
+              "instance 3": 19,
+              "instance 4": 23,
+              "instance 5": 27,
+              "instance 6": 31,
+              "instance 7": 35,
               "job 1": 4,
-              "job 2": 13,
-              "job 3": 17,
-              "job 4": 21,
+              "job 2": 16,
+              "job 3": 20,
+              "job 4": 24,
+              "job 5": 28,
+              "job 6": 32,
+              "job 7": 36,
               "peer_id 1": 5,
-              "peer_id 2": 14,
-              "peer_id 3": 18,
-              "peer_id 4": 22
+              "peer_id 2": 17,
+              "peer_id 3": 21,
+              "peer_id 4": 25,
+              "peer_id 5": 29,
+              "peer_id 6": 33,
+              "peer_id 7": 37
             },
             "renameByName": {
               "Value #A": "Max frame",
               "Value #B": "Balance (Q)",
               "Value #C": "Estimated Q / day",
               "Value #D": "Estimated Q / month",
+              "Value #E": "Balance ($)",
+              "Value #F": "Estimated $ / day",
+              "Value #G": "Estimated $ / month",
               "hostname": "Hostname",
+              "instance 5": "",
               "job 2": "",
               "peer_id 1": "Peer id"
             }
@@ -1856,6 +1936,76 @@
           "editorMode": "code",
           "exemplar": false,
           "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * 30 * $quil_price ",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated $ / month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 9,
+        "y": 19
+      },
+      "id": 215,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "last_over_time(quilibrium_max_frame{hostname=\"$node\"} [1h])",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1866,7 +2016,7 @@
           "useBackend": false
         }
       ],
-      "title": "Estimated $ / month",
+      "title": "Max frame",
       "type": "stat"
     },
     {
@@ -2093,12 +2243,12 @@
           "editorMode": "code",
           "exemplar": false,
           "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * 30",
-          "format": "time_series",
+          "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
-          "instant": false,
+          "instant": true,
           "legendFormat": "__auto",
-          "range": true,
+          "range": false,
           "refId": "A",
           "useBackend": false
         }
@@ -2138,7 +2288,7 @@
             "lineStyle": {
               "fill": "solid"
             },
-            "lineWidth": 1,
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -2243,7 +2393,7 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -2838,7 +2988,7 @@
           "refId": "B"
         }
       ],
-      "title": "【$show_hostname】：Disk Space Used Basic(EXT?/XFS)",
+      "title": "【$show_hostname】：Disk space used",
       "transformations": [
         {
           "id": "merge",
@@ -3133,7 +3283,7 @@
           "step": 600
         }
       ],
-      "title": "Internet traffic per hour $device",
+      "title": "Internet traffic per hour",
       "type": "timeseries"
     },
     {
@@ -3711,7 +3861,7 @@
           "step": 240
         }
       ],
-      "title": "CPU% Basic",
+      "title": "CPU%",
       "type": "timeseries"
     },
     {
@@ -4149,7 +4299,7 @@
           "refId": "H"
         }
       ],
-      "title": "Memory Basic",
+      "title": "Memory",
       "type": "timeseries"
     },
     {
@@ -4977,7 +5127,7 @@
           "refId": "B"
         }
       ],
-      "title": "Disk Space Used% Basic",
+      "title": "Disk Space Used%",
       "type": "timeseries"
     }
   ],
@@ -5111,7 +5261,7 @@
         "auto_count": 100,
         "auto_min": "10s",
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "2m",
           "value": "2m"
         },
@@ -5284,7 +5434,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-12h",
     "to": "now"
   },
   "timeRangeUpdatedDuringEditOrView": false,
@@ -5314,6 +5464,6 @@
   "timezone": "browser",
   "title": "Quilibrium Dashboard",
   "uid": "xfpJB9FGz",
-  "version": 47,
+  "version": 53,
   "weekStart": "monday"
 }
