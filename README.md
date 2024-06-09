@@ -33,6 +33,11 @@ It is necessary to install the custom node exporter on each node you want to mon
 
 * Create a directory `exporter`in the root of Quilibrium node (ie: `/home/user/quilibrium/exporter`)
 * Copy the files [quilibrium_exporter.py](grafana/exporter/quilibrium_exporter.py) [requirements.txt](grafana/exporter/requirements.txt) into
+* Go to your node directory (/home/user/quilibrium/ceremonyclient/node for ie)
+* Execute this command
+```
+ln -s ./node-1.4.19-linux-amd64 ./node
+```
 * Prepare python environment
 ```
 sudo apt install python3 python3-pip python3-virtualenv
