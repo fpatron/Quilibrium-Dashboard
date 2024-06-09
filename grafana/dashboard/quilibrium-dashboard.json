@@ -9,20 +9,20 @@
       "pluginName": "Infinity"
     },
     {
-      "name": "DS_LOKI",
-      "label": "loki",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "loki",
-      "pluginName": "Loki"
-    },
-    {
       "name": "DS_VICTORIAMETRICS",
       "label": "VictoriaMetrics",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
       "pluginName": "Prometheus"
+    },
+    {
+      "name": "DS_LOKI",
+      "label": "loki",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "loki",
+      "pluginName": "Loki"
     }
   ],
   "__elements": {},
@@ -61,6 +61,12 @@
       "type": "panel",
       "id": "table",
       "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
       "version": ""
     },
     {
@@ -122,32 +128,6 @@
   ],
   "panels": [
     {
-      "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "grafanacloud-prom"
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 187,
-      "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "grafanacloud-prom"
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "Nodes overview",
-      "type": "row"
-    },
-    {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
@@ -171,15 +151,15 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 3,
+        "h": 3,
+        "w": 4,
         "x": 0,
-        "y": 1
+        "y": 0
       },
       "id": 196,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "standard",
@@ -241,8 +221,646 @@
     },
     {
       "datasource": {
-        "type": "loki",
-        "uid": "${DS_LOKI}"
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 5,
+        "y": 0
+      },
+      "id": 207,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "json_options": {
+            "columnar": false,
+            "root_is_not_array": false
+          },
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.livecoinwatch.com/coins/single",
+          "url_options": {
+            "body_content_type": "application/json",
+            "body_type": "raw",
+            "data": "{\n    \"currency\": \"USD\",\n    \"code\": \"WQUIL\",\n    \"meta\": true\n  }",
+            "headers": [
+              {
+                "key": "x-api-key",
+                "value": "c1a3670b-fa4d-438f-8a93-19a204f10c82"
+              }
+            ],
+            "method": "POST"
+          }
+        }
+      ],
+      "title": "Price",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "age": true,
+              "allTimeHighUSD": true,
+              "cap": true,
+              "categories": true,
+              "circulatingSupply": true,
+              "color": true,
+              "delta": true,
+              "exchanges": true,
+              "links": true,
+              "liquidity": true,
+              "markets": true,
+              "maxSupply": true,
+              "name": true,
+              "pairs": true,
+              "png32": true,
+              "png64": true,
+              "rank": true,
+              "totalSupply": true,
+              "volume": true,
+              "webp32": true,
+              "webp64": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 10,
+        "y": 0
+      },
+      "id": 201,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(quilibrium_unclaimed_balance)",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Balance (Q)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 15,
+        "y": 0
+      },
+      "id": 202,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24)",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated Q / day",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 203,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * 30)",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated Q / month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 3
+      },
+      "id": 191,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by (instance) ({__name__=~\".+\",job=\"integrations/quilibrium_exporter\"}))",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "My nodes",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 10,
+        "y": 3
+      },
+      "id": 206,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(quilibrium_unclaimed_balance) * $quil_price",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Balance ($)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 15,
+        "y": 3
+      },
+      "id": 204,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24) * $quil_price",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated $ / day",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 3
+      },
+      "id": 205,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * 30) * $quil_price",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated $ / month",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "grafanacloud-prom"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "id": 187,
+      "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "grafanacloud-prom"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Nodes overview",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -269,18 +887,17 @@
                 "value": 80
               }
             ]
-          },
-          "unit": "string"
+          }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
-        "w": 8,
-        "x": 3,
-        "y": 1
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 7
       },
-      "id": 190,
+      "id": 199,
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -295,7 +912,7 @@
         "sortBy": [
           {
             "desc": true,
-            "displayName": "Hostname"
+            "displayName": "Unclaimed"
           }
         ]
       },
@@ -303,46 +920,70 @@
       "targets": [
         {
           "datasource": {
-            "type": "loki",
-            "uid": "${DS_LOKI}"
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "last_over_time({unit=\"quilibrium.service\"} |= `current_frame` | json | unwrap current_frame [1d]) by (hostname)",
+          "exemplar": false,
+          "expr": "last_over_time(quilibrium_unclaimed_balance [1h])",
+          "format": "table",
           "hide": false,
-          "queryType": "instant",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
           "refId": "B"
         },
         {
           "datasource": {
-            "type": "loki",
-            "uid": "${DS_LOKI}"
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
           },
+          "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "last_over_time({unit=\"quilibrium.service\"} |= `next_difficulty_metric` | json | unwrap next_difficulty_metric [1d]) by (hostname)",
-          "hide": false,
-          "queryType": "instant",
-          "refId": "A"
+          "exemplar": false,
+          "expr": "last_over_time(quilibrium_max_frame [1h])",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
         },
         {
           "datasource": {
-            "type": "loki",
-            "uid": "${DS_LOKI}"
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "{unit=\"quilibrium.service\"} |= `bootstrap` | json | keep hostname, peer_id",
+          "exemplar": false,
+          "expr": "irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24",
+          "format": "table",
           "hide": false,
-          "queryType": "range",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
           "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * 30",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "D"
         }
       ],
       "title": "Quilibrium",
       "transformations": [
-        {
-          "id": "extractFields",
-          "options": {
-            "source": "labels"
-          }
-        },
         {
           "id": "joinByField",
           "options": {
@@ -354,48 +995,58 @@
           "id": "organize",
           "options": {
             "excludeByName": {
-              "Line": true,
-              "Time": true,
               "Time 1": true,
               "Time 2": true,
               "Time 3": true,
-              "id": true,
-              "labelTypes": true,
-              "labels": true,
-              "tsNs": true
+              "Time 4": true,
+              "__name__ 1": true,
+              "__name__ 2": true,
+              "instance 1": true,
+              "instance 2": true,
+              "instance 3": true,
+              "instance 4": true,
+              "job 1": true,
+              "job 2": true,
+              "job 3": true,
+              "job 4": true,
+              "peer_id 2": true,
+              "peer_id 3": true,
+              "peer_id 4": true
             },
             "includeByName": {},
             "indexByName": {
-              "Line 1": 9,
-              "Line 2": 14,
-              "Time 1": 5,
-              "Time 2": 6,
-              "Time 3": 7,
-              "Time 4": 18,
-              "Value #A": 4,
-              "Value #B": 3,
+              "Time 1": 1,
+              "Time 2": 10,
+              "Time 3": 15,
+              "Time 4": 19,
+              "Value #A": 9,
+              "Value #B": 6,
+              "Value #C": 7,
+              "Value #D": 8,
+              "__name__ 1": 2,
+              "__name__ 2": 11,
               "hostname": 0,
-              "id 1": 12,
-              "id 2": 17,
-              "labelTypes 1": 11,
-              "labelTypes 2": 16,
-              "labels 1": 8,
-              "labels 2": 13,
-              "peer_id": 1,
-              "tsNs 1": 10,
-              "tsNs 2": 15,
-              "version": 2
+              "instance 1": 3,
+              "instance 2": 12,
+              "instance 3": 16,
+              "instance 4": 20,
+              "job 1": 4,
+              "job 2": 13,
+              "job 3": 17,
+              "job 4": 21,
+              "peer_id 1": 5,
+              "peer_id 2": 14,
+              "peer_id 3": 18,
+              "peer_id 4": 22
             },
             "renameByName": {
-              "Line": "",
-              "Value #A": "Difficulty",
-              "Value #B": "Current frame",
-              "Value #C": "Peer Id",
+              "Value #A": "Max frame",
+              "Value #B": "Balance (Q)",
+              "Value #C": "Estimated Q / day",
+              "Value #D": "Estimated Q / month",
               "hostname": "Hostname",
-              "labels": "",
-              "peer_id": "Peer Id",
-              "tsNs": "",
-              "version": "Version"
+              "job 2": "",
+              "peer_id 1": "Peer id"
             }
           }
         }
@@ -776,10 +1427,10 @@
         ]
       },
       "gridPos": {
-        "h": 9,
-        "w": 13,
-        "x": 11,
-        "y": 1
+        "h": 11,
+        "w": 12,
+        "x": 12,
+        "y": 7
       },
       "id": 192,
       "options": {
@@ -792,7 +1443,13 @@
           ],
           "show": false
         },
-        "showHeader": true
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Hostname"
+          }
+        ]
       },
       "pluginVersion": "11.0.0",
       "targets": [
@@ -976,6 +1633,32 @@
       "type": "table"
     },
     {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "grafanacloud-prom"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 189,
+      "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "grafanacloud-prom"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Node details【$show_hostname】",
+      "type": "row"
+    },
+    {
       "datasource": {
         "type": "prometheus",
         "uid": "${DS_VICTORIAMETRICS}"
@@ -992,10 +1675,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -1003,18 +1682,17 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 2,
         "w": 3,
         "x": 0,
-        "y": 6
+        "y": 19
       },
-      "id": 191,
+      "id": 208,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
-        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1033,49 +1711,97 @@
             "type": "prometheus",
             "uid": "${DS_VICTORIAMETRICS}"
           },
+          "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "count(count by (instance) ({__name__=~\".+\",job=\"integrations/quilibrium_exporter\"}))",
-          "format": "table",
-          "instant": true,
+          "expr": "sum(quilibrium_unclaimed_balance{hostname=\"$node\"})",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
+          "range": true,
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "My nodes",
+      "title": "Balance (Q)",
       "type": "stat"
     },
     {
-      "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
       },
       "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 10
+        "h": 2,
+        "w": 3,
+        "x": 3,
+        "y": 19
       },
-      "id": 189,
-      "panels": [],
+      "id": 210,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_VICTORIAMETRICS}"
           },
-          "refId": "A"
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "Node details【$show_hostname】",
-      "type": "row"
+      "title": "Estimated Q / day",
+      "type": "stat"
     },
     {
       "datasource": {
-        "type": "loki",
-        "uid": "${DS_LOKI}"
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1089,33 +1815,126 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
-          }
+          },
+          "unit": "currencyUSD"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 2,
-        "w": 4,
+        "w": 3,
+        "x": 6,
+        "y": 19
+      },
+      "id": 213,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * 30 * $quil_price ",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated $ / month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 11,
+        "x": 12,
+        "y": 19
+      },
+      "id": 214,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "11.0.0",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
         "x": 0,
-        "y": 11
+        "y": 21
       },
-      "id": 197,
+      "id": 209,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^Line$/",
+          "fields": "",
           "values": false
         },
         "showPercentChange": false,
@@ -1126,22 +1945,30 @@
       "targets": [
         {
           "datasource": {
-            "type": "loki",
-            "uid": "${DS_LOKI}"
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
           },
+          "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "{unit=\"quilibrium.service\"} |~ `Quilibrium` | pattern `<_> - <version>` | line_format \"{{.version}}\"",
-          "queryType": "range",
-          "refId": "A"
+          "exemplar": false,
+          "expr": "sum(quilibrium_unclaimed_balance{hostname=\"$node\"}) * $quil_price",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "Version",
+      "title": "Balance ($)",
       "type": "stat"
     },
     {
       "datasource": {
-        "type": "loki",
-        "uid": "${DS_LOKI}"
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1155,33 +1982,30 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
-          }
+          },
+          "unit": "currencyUSD"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 2,
-        "w": 20,
-        "x": 4,
-        "y": 11
+        "w": 3,
+        "x": 3,
+        "y": 21
       },
-      "id": 198,
+      "id": 211,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^Line$/",
+          "fields": "",
           "values": false
         },
         "showPercentChange": false,
@@ -1192,28 +2016,106 @@
       "targets": [
         {
           "datasource": {
-            "type": "loki",
-            "uid": "${DS_LOKI}"
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
           },
+          "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "{unit=\"quilibrium.service\"} |= `bootstrap` | json | line_format \"{{.peer_id}}\"",
-          "queryType": "instant",
-          "refId": "A"
+          "exemplar": false,
+          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * $quil_price",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "Peer id",
+      "title": "Estimated $ / day",
       "type": "stat"
     },
     {
       "datasource": {
-        "type": "loki",
-        "uid": "${DS_LOKI}"
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 6,
+        "y": 21
+      },
+      "id": 212,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * 30",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated Q / month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
             "fixedColor": "blue",
-            "mode": "fixed"
+            "mode": "palette-classic"
           },
           "custom": {
             "axisBorderShow": false,
@@ -1223,7 +2125,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "bars",
+            "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
@@ -1232,7 +2134,7 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineStyle": {
               "fill": "solid"
             },
@@ -1258,10 +2160,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -1272,7 +2170,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 13
+        "y": 23
       },
       "id": 194,
       "options": {
@@ -1280,7 +2178,7 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "tooltip": {
           "maxHeight": 600,
@@ -1292,16 +2190,30 @@
       "targets": [
         {
           "datasource": {
-            "type": "loki",
-            "uid": "${DS_LOKI}"
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "sum_over_time({unit=\"quilibrium.service\", hostname=\"$node\"} |= \"difficulty\" | json | unwrap next_difficulty_metric [1m])",
-          "queryType": "range",
+          "expr": "quilibrium_peer_store_count{hostname=\"$node\"}",
+          "legendFormat": "peer store",
+          "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "editorMode": "code",
+          "expr": "quilibrium_network_peer_count{hostname=\"$node\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "network peers",
+          "range": true,
+          "refId": "B"
         }
       ],
-      "title": "Difficulty",
+      "title": "Peers",
       "type": "timeseries"
     },
     {
@@ -1367,7 +2279,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 13
+        "y": 23
       },
       "id": 193,
       "options": {
@@ -1444,7 +2356,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 20
+        "y": 30
       },
       "hideTimeOverride": true,
       "id": 15,
@@ -1535,7 +2447,7 @@
         "h": 6,
         "w": 5,
         "x": 2,
-        "y": 20
+        "y": 30
       },
       "id": 177,
       "options": {
@@ -1859,7 +2771,7 @@
         "h": 6,
         "w": 9,
         "x": 7,
-        "y": 20
+        "y": 30
       },
       "id": 181,
       "links": [
@@ -2170,7 +3082,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 20
+        "y": 30
       },
       "id": 183,
       "options": {
@@ -2268,7 +3180,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 22
+        "y": 32
       },
       "id": 14,
       "maxDataPoints": 100,
@@ -2354,7 +3266,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 24
+        "y": 34
       },
       "id": 75,
       "maxDataPoints": 100,
@@ -2717,7 +3629,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 26
+        "y": 36
       },
       "id": 7,
       "options": {
@@ -3106,7 +4018,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 26
+        "y": 36
       },
       "id": 156,
       "options": {
@@ -3388,7 +4300,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 26
+        "y": 36
       },
       "id": 157,
       "options": {
@@ -3607,7 +4519,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 34
+        "y": 44
       },
       "id": 13,
       "options": {
@@ -3826,7 +4738,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 34
+        "y": 44
       },
       "id": 168,
       "options": {
@@ -4017,7 +4929,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 34
+        "y": 44
       },
       "id": 174,
       "options": {
@@ -4199,9 +5111,9 @@
         "auto_count": 100,
         "auto_min": "10s",
         "current": {
-          "selected": true,
-          "text": "5m",
-          "value": "5m"
+          "selected": false,
+          "text": "2m",
+          "value": "2m"
         },
         "hide": 0,
         "label": "Interval",
@@ -4218,7 +5130,7 @@
             "value": "1m"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "2m",
             "value": "2m"
           },
@@ -4228,7 +5140,7 @@
             "value": "3m"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "5m",
             "value": "5m"
           },
@@ -4317,6 +5229,57 @@
         "tagsQuery": "",
         "type": "query",
         "useTags": false
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "yesoreyeram-infinity-datasource",
+          "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+        },
+        "definition": "yesoreyeram-infinity-datasource- (infinity) json",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "quil_price",
+        "options": [],
+        "query": {
+          "infinityQuery": {
+            "columns": [],
+            "filters": [],
+            "format": "table",
+            "groq": "*",
+            "parser": "backend",
+            "refId": "variable",
+            "root_selector": "rate",
+            "source": "url",
+            "type": "json",
+            "uql": "parse-json ",
+            "url": "https://api.livecoinwatch.com/coins/single",
+            "url_options": {
+              "body_content_type": "application/json",
+              "body_type": "raw",
+              "data": "{\n\t\"currency\": \"USD\",\n\t\"code\": \"WQUIL\",\n\t\"meta\": false\n}",
+              "headers": [
+                {
+                  "key": "x-api-key",
+                  "value": "c1a3670b-fa4d-438f-8a93-19a204f10c82"
+                },
+                {
+                  "key": "header-key",
+                  "value": "header-value"
+                }
+              ],
+              "method": "POST"
+            }
+          },
+          "query": "",
+          "queryType": "infinity"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
       }
     ]
   },
@@ -4351,6 +5314,6 @@
   "timezone": "browser",
   "title": "Quilibrium Dashboard",
   "uid": "xfpJB9FGz",
-  "version": 21,
+  "version": 47,
   "weekStart": "monday"
 }
