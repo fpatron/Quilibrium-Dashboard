@@ -2303,12 +2303,12 @@
             "uid": "${DS_LOKI}"
           },
           "editorMode": "code",
-          "expr": "sum by (peer_id)( count_over_time({unit=\"quilibrium.service\", hostname=\"$node\"} |= `syncing target` [1m]))",
+          "expr": "sum by (peer_id)( count_over_time({unit=\"quilibrium.service\", hostname=\"$node\"} |= `syncing target` [1h]))",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Peers sync per minute",
+      "title": "Peers sync per hour",
       "type": "timeseries"
     },
     {
