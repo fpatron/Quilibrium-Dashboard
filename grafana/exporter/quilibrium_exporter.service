@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=<your_username>
 Group=<your_username>
-WorkingDirectory=/home/<your_username>/my_project
+WorkingDirectory=/home/<your_username>/quilibrium/exporter
 ExecStart=/home/<your_username>/quilibrium/exporter/venv/bin/python /home/<your_username>/quilibrium/exporter/quilibrium_exporter.py
 Restart=always
 
