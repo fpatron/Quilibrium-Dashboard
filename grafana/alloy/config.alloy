@@ -23,6 +23,17 @@ prometheus.scrape "default" {
     ]
 }
 
+prometheus.scrape "quilibrium_exporter" {
+  scrape_interval = "1m"
+  job_name = "quilibrium"
+  targets = [{
+    __address__ = "127.0.0.1:5001",
+  }]    
+  forward_to = [
+      prometheus.remote_write.grafanacloud.receiver,
+  ]
+}
+
 prometheus.remote_write "grafanacloud" {
   endpoint {
     url = "<PROMETHEUS_ENDPOINT>"

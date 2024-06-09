@@ -13,7 +13,45 @@ To make the dashboard work, you need:
 * Prometheus (metrics service)
 * Loki (logs service)
 
-## Installing Grafana Alloy
+## Installing Grafana / Prometheus / Loki
+
+You have multiple choices to create your Grafana instance:
+
+* Use Grafana Cloud: they provided a limited free plan
+* Use the provided Docker image to create your own Grafana instance
+* Create your own Grafana instance on a VM or server of your choice
+
+Tips: Prometheus server needs to be launch with the following flags:
+
+`--web.enable-remote-write-receiver`
+
+## Prepare each node
+
+### Installing the Quilibrium node exporter
+
+It is necessary to install the custom node exporter on each node you want to monitor in order to send custom metrics:
+
+* Create a directory `exporter`in the root of Quilibrium node (ie: `/home/user/quilibrium/exporter`)
+* Copy the files [quilibrium_exporter.py](grafana/exporter/quilibrium_exporter.py) [requirements.txt](grafana/exporter/requirements.txt) into
+* Prepare python environment
+```
+sudo apt install python3 python3-pip python3-virtualenv
+cd ~/quilibrium/exporter
+virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+```
+* Create a dedicated service to launch the exporter at runtime (see file [quilibrium_exporter.service](grafana/exporter/quilibrium_exporter.service))
+* Copy the file into /lib/systemd/system (adapt with your needs)
+* Enable the service:
+```
+systemctl daemon-reload
+systemctl enable quilibrium_exporter.service
+systemctl start quilibrium_exporter.service
+```
+
+### Installing Grafana Alloy
 
 It is necessary to install the Grafana Alloy agent on your nodes. It will be responsible for reporting your server metrics (CPU, RAM, disk...) and the Quilibrium node logs.
 
@@ -26,7 +64,7 @@ sudo apt-get install alloy -y
 
 ```
 
-## CConfiguring Grafana Alloy
+### Configuring Grafana Alloy
 
 Once the agent is installed, you need to configure it.
 The configuration file is located here:
@@ -37,7 +75,7 @@ Delete its contents and replace them with the contents of the example file [graf
 
 Replace the following tags with your own information:
 
-* <PROMETHEUS_ENDPOINT> (eg: http://X.X.X.X:8428/api/v1/write)
+* <PROMETHEUS_ENDPOINT> (eg: http://X.X.X.X:9090/api/v1/write)
 * <PROMETHEUS_USERNAME> (optional)
 * <PROMETHEUS_PASSWORD> (optional)
 
