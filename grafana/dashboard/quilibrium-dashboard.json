@@ -1964,8 +1964,7 @@
                 "value": null
               }
             ]
-          },
-          "unit": "currencyUSD"
+          }
         },
         "overrides": []
       },
@@ -1975,7 +1974,7 @@
         "x": 6,
         "y": 19
       },
-      "id": 213,
+      "id": 212,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -2002,7 +2001,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * 30 * $quil_price ",
+          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * 30",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -2013,7 +2012,7 @@
           "useBackend": false
         }
       ],
-      "title": "Estimated $ / month",
+      "title": "Estimated Q / month",
       "type": "stat"
     },
     {
@@ -2272,7 +2271,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "currencyUSD"
         },
         "overrides": []
       },
@@ -2282,7 +2282,7 @@
         "x": 6,
         "y": 21
       },
-      "id": 212,
+      "id": 213,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -2309,7 +2309,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * 30",
+          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * 30 * $quil_price ",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -2320,7 +2320,7 @@
           "useBackend": false
         }
       ],
-      "title": "Estimated Q / month",
+      "title": "Estimated $ / month",
       "type": "stat"
     },
     {
@@ -5540,7 +5540,7 @@
         "auto_count": 100,
         "auto_min": "10s",
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "2m",
           "value": "2m"
         },
@@ -5743,6 +5743,6 @@
   "timezone": "browser",
   "title": "Quilibrium Dashboard",
   "uid": "xfpJB9FGz",
-  "version": 59,
+  "version": 60,
   "weekStart": "monday"
 }
