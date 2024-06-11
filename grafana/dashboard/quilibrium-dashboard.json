@@ -247,7 +247,7 @@
       "gridPos": {
         "h": 6,
         "w": 4,
-        "x": 5,
+        "x": 4,
         "y": 0
       },
       "id": 207,
@@ -301,7 +301,7 @@
           }
         }
       ],
-      "title": "Price",
+      "title": "Current price",
       "transformations": [
         {
           "id": "organize",
@@ -339,9 +339,10 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_VICTORIAMETRICS}"
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -356,17 +357,18 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "currencyUSD"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 6,
         "w": 4,
-        "x": 10,
+        "x": 8,
         "y": 0
       },
-      "id": 201,
+      "id": 219,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -377,7 +379,7 @@
             "lastNotNull"
           ],
           "fields": "",
-          "values": false
+          "values": true
         },
         "showPercentChange": false,
         "textMode": "auto",
@@ -386,166 +388,169 @@
       "pluginVersion": "11.0.0",
       "targets": [
         {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "json_options": {
+            "columnar": false,
+            "root_is_not_array": false
+          },
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.livecoinwatch.com/coins/single",
+          "url_options": {
+            "body_content_type": "application/json",
+            "body_type": "raw",
+            "data": "{\n    \"currency\": \"USD\",\n    \"code\": \"WQUIL\",\n    \"meta\": true\n  }",
+            "headers": [
+              {
+                "key": "x-api-key",
+                "value": "c1a3670b-fa4d-438f-8a93-19a204f10c82"
+              }
+            ],
+            "method": "POST"
+          }
+        }
+      ],
+      "title": "ATH",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "age": true,
+              "allTimeHighUSD": false,
+              "cap": true,
+              "categories": true,
+              "circulatingSupply": true,
+              "color": true,
+              "delta": true,
+              "exchanges": true,
+              "links": true,
+              "liquidity": true,
+              "markets": true,
+              "maxSupply": true,
+              "name": true,
+              "pairs": true,
+              "png32": true,
+              "png64": true,
+              "rank": true,
+              "rate": true,
+              "totalSupply": true,
+              "volume": true,
+              "webp32": true,
+              "webp64": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 218,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_VICTORIAMETRICS}"
           },
-          "disableTextWrap": false,
           "editorMode": "code",
-          "exemplar": false,
           "expr": "sum(quilibrium_unclaimed_balance)",
-          "format": "time_series",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{hostname}}",
           "range": true,
-          "refId": "A",
-          "useBackend": false
+          "refId": "A"
         }
       ],
       "title": "Balance (Q)",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_VICTORIAMETRICS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 15,
-        "y": 0
-      },
-      "id": 202,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_VICTORIAMETRICS}"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24)",
-          "format": "table",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "Estimated Q / day",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_VICTORIAMETRICS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 0
-      },
-      "id": 203,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_VICTORIAMETRICS}"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * 30)",
-          "format": "time_series",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "Estimated Q / month",
-      "type": "stat"
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -645,8 +650,8 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 10,
-        "y": 3
+        "x": 0,
+        "y": 6
       },
       "id": 206,
       "options": {
@@ -708,6 +713,312 @@
                 "value": null
               }
             ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 4,
+        "y": 6
+      },
+      "id": 202,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24)",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated Q / day",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 8,
+        "y": 6
+      },
+      "id": 203,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * 30)",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated Q / month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "id": 217,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "editorMode": "code",
+          "expr": "quilibrium_unclaimed_balance",
+          "instant": false,
+          "legendFormat": "{{hostname}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Balance (Q)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 9
+      },
+      "id": 201,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(quilibrium_unclaimed_balance)",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Balance (Q)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
           },
           "unit": "currencyUSD"
         },
@@ -716,8 +1027,8 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 15,
-        "y": 3
+        "x": 4,
+        "y": 9
       },
       "id": 204,
       "options": {
@@ -787,8 +1098,8 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 20,
-        "y": 3
+        "x": 8,
+        "y": 9
       },
       "id": 205,
       "options": {
@@ -841,7 +1152,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 12
       },
       "id": 187,
       "panels": [],
@@ -895,7 +1206,7 @@
         "h": 11,
         "w": 12,
         "x": 0,
-        "y": 7
+        "y": 13
       },
       "id": 199,
       "options": {
@@ -1553,7 +1864,7 @@
         "h": 11,
         "w": 12,
         "x": 12,
-        "y": 7
+        "y": 13
       },
       "id": 192,
       "options": {
@@ -1570,7 +1881,7 @@
         "sortBy": [
           {
             "desc": true,
-            "displayName": "CPU temp"
+            "displayName": "Memory used%"
           }
         ]
       },
@@ -1789,7 +2100,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 24
       },
       "id": 189,
       "panels": [],
@@ -1832,7 +2143,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 19
+        "y": 25
       },
       "id": 208,
       "options": {
@@ -1902,7 +2213,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 19
+        "y": 25
       },
       "id": 210,
       "options": {
@@ -1972,7 +2283,7 @@
         "h": 2,
         "w": 3,
         "x": 6,
-        "y": 19
+        "y": 25
       },
       "id": 212,
       "options": {
@@ -2042,7 +2353,7 @@
         "h": 2,
         "w": 3,
         "x": 9,
-        "y": 19
+        "y": 25
       },
       "id": 215,
       "options": {
@@ -2090,25 +2401,96 @@
         "type": "prometheus",
         "uid": "${DS_VICTORIAMETRICS}"
       },
-      "gridPos": {
-        "h": 4,
-        "w": 11,
-        "x": 12,
-        "y": 19
-      },
-      "id": 214,
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
         },
-        "content": "",
-        "mode": "markdown"
+        "overrides": []
       },
-      "pluginVersion": "11.0.0",
-      "transparent": true,
-      "type": "text"
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 25
+      },
+      "id": 220,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "editorMode": "code",
+          "expr": "quilibrium_unclaimed_balance{ hostname=\"$node\"}",
+          "instant": false,
+          "legendFormat": "{{hostname}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Balance (Q)",
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -2138,7 +2520,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 21
+        "y": 27
       },
       "id": 209,
       "options": {
@@ -2209,7 +2591,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 21
+        "y": 27
       },
       "id": 211,
       "options": {
@@ -2280,7 +2662,7 @@
         "h": 2,
         "w": 3,
         "x": 6,
-        "y": 21
+        "y": 27
       },
       "id": 213,
       "options": {
@@ -2322,6 +2704,31 @@
       ],
       "title": "Estimated $ / month",
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 0,
+        "y": 29
+      },
+      "id": 214,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "11.0.0",
+      "transparent": true,
+      "type": "text"
     },
     {
       "datasource": {
@@ -2387,7 +2794,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 23
+        "y": 32
       },
       "id": 194,
       "options": {
@@ -2496,7 +2903,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 23
+        "y": 32
       },
       "id": 193,
       "options": {
@@ -2573,7 +2980,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 30
+        "y": 39
       },
       "hideTimeOverride": true,
       "id": 15,
@@ -2664,7 +3071,7 @@
         "h": 6,
         "w": 6,
         "x": 2,
-        "y": 30
+        "y": 39
       },
       "id": 177,
       "options": {
@@ -2988,7 +3395,7 @@
         "h": 6,
         "w": 8,
         "x": 8,
-        "y": 30
+        "y": 39
       },
       "id": 181,
       "links": [
@@ -3299,7 +3706,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 30
+        "y": 39
       },
       "id": 183,
       "options": {
@@ -3397,7 +3804,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 32
+        "y": 41
       },
       "id": 14,
       "maxDataPoints": 100,
@@ -3483,7 +3890,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 34
+        "y": 43
       },
       "id": 75,
       "maxDataPoints": 100,
@@ -3846,7 +4253,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 36
+        "y": 45
       },
       "id": 7,
       "options": {
@@ -4235,7 +4642,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 36
+        "y": 45
       },
       "id": 156,
       "options": {
@@ -4517,7 +4924,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 36
+        "y": 45
       },
       "id": 157,
       "options": {
@@ -4736,7 +5143,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 44
+        "y": 53
       },
       "id": 13,
       "options": {
@@ -4948,7 +5355,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 44
+        "y": 53
       },
       "id": 216,
       "options": {
@@ -5170,7 +5577,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 44
+        "y": 53
       },
       "id": 174,
       "options": {
@@ -5355,7 +5762,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 52
+        "y": 61
       },
       "id": 168,
       "options": {
@@ -5713,7 +6120,7 @@
     ]
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-2d",
     "to": "now"
   },
   "timeRangeUpdatedDuringEditOrView": false,
@@ -5743,6 +6150,6 @@
   "timezone": "browser",
   "title": "Quilibrium Dashboard",
   "uid": "xfpJB9FGz",
-  "version": 60,
+  "version": 61,
   "weekStart": "monday"
 }
