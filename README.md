@@ -19,6 +19,9 @@ You have multiple choices to create your Grafana instance:
 
 * Use Grafana Cloud: they provided a limited free plan
 * Use the provided Docker image to create your own Grafana instance
+  ```
+  cd ~ && mkdir grafpromloki && cd grafpromloki && wget https://raw.githubusercontent.com/fpatron/Quilibrium-Dashboard/master/grafana/docker/docker-compose.yml && docker-compose up -d
+  ```
 * Create your own Grafana instance on a VM or server of your choice
 
 Tips: Prometheus server needs to be launch with the following flags:
@@ -107,6 +110,9 @@ systemctl daemon-reload
 * If you use screen to run your node, you now need to use a service to run your node because the Grafana dashboard is not optimized for managing screens.
 
 As root, create the file `/lib/systemd/system/quilibrium.service`with the following content:
+```
+sudo nano /lib/systemd/system/quilibrium.service
+```
 
 ```
 [Unit]
@@ -159,13 +165,23 @@ Go to your Grafana instance
 
 1. Install the Infinity plugin
     * Go to Home > Administration > Plugins and data > Plugins
+    * Note: By default, only installed plugins are displayed. Switch to "All" mode (top right).
     * Search for the Infinity plugin and install it
-    * Note: By default, only installed plugins are displayed. Switch to "All" mode.
-2. Add a datasource for Infinity
+
+2. Add a datasource for Infinity, Loki and Prometheus
     * Go to Home > Data sources
     * Click on the "Add new data sources" button
     * Search for "Infinity"
     * Click on "Save & test"
+    * Click on the "Add new data sources" button
+    * Search for "Prometheus"
+    * Connection : Prometheus URL : http://192.168.X.X:9090    (put the IP of the computer running docker)
+    * Click on "Save & test"
+    * Click on the "Add new data sources" button
+    * Search for "Loki"
+    * Connection : URL : http://192.168.X.X:3100             (put the IP of the computer running docker)
+    * Click on "Save & test"
+
 3. Import the dashboard
     * Go to Home > Dashboard
     * Download the dashboard in [JSON format](https://raw.githubusercontent.com/fpatron/Quilibrium-Dashboard/master/grafana/dashboard/quilibrium-dashboard.json)
