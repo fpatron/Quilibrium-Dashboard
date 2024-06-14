@@ -91,6 +91,14 @@ def fetch_data_from_logs(peer_id, hostname):
 
 @app.route('/metrics')
 def metrics():
+    peer_score_metric.clear()
+    max_frame_metric.clear()
+    unclaimed_balance_metric.clear()
+    peer_store_count_metric.clear()
+    network_peer_count_metric.clear()
+    proof_increment_metric.clear()
+    proof_time_taken_metric.clear()
+    
     peer_id, hostname = fetch_data_from_node()
     if peer_id and hostname:
         fetch_data_from_logs(peer_id, hostname)
