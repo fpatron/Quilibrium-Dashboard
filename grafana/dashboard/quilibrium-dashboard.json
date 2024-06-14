@@ -549,7 +549,7 @@
           "refId": "A"
         }
       ],
-      "title": "Balance (Q)",
+      "title": "Balance (Q) (total)",
       "type": "timeseries"
     },
     {
@@ -750,7 +750,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24)",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24)",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -820,7 +820,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * 30)",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30)",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -927,7 +927,7 @@
           "refId": "A"
         }
       ],
-      "title": "Balance (Q)",
+      "title": "Balance (Q) (per node)",
       "type": "timeseries"
     },
     {
@@ -1057,7 +1057,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24) * $quil_price",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24) * $quil_price",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1128,7 +1128,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * 30) * $quil_price",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30) * $quil_price",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1220,12 +1220,7 @@
           "show": false
         },
         "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "Hostname"
-          }
-        ]
+        "sortBy": []
       },
       "pluginVersion": "11.0.0",
       "targets": [
@@ -1269,7 +1264,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24",
+          "expr": "increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1284,7 +1279,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * 30",
+          "expr": "increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1315,7 +1310,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * $quil_price",
+          "expr": "increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * $quil_price",
           "format": "table",
           "fullMetaSearch": false,
           "hide": false,
@@ -1333,7 +1328,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(quilibrium_unclaimed_balance{}[24h]) * 60 * 60 * 24 * 30 * $quil_price",
+          "expr": "increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30 * $quil_price",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -2242,7 +2237,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24",
+          "expr": "increase(quilibrium_unclaimed_balance{hostname=\"$node\"}[10m]) * 6 * 24",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -2312,7 +2307,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * 30",
+          "expr": "increase(quilibrium_unclaimed_balance{hostname=\"$node\"}[10m]) * 6 * 24 * 30",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -2620,7 +2615,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * $quil_price",
+          "expr": "increase(quilibrium_unclaimed_balance{hostname=\"$node\"}[10m]) * 6 * 24 * $quil_price",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -2691,7 +2686,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(quilibrium_unclaimed_balance{hostname=\"$node\"}[24h]) * 60 * 60 * 24 * 30 * $quil_price ",
+          "expr": "increase(quilibrium_unclaimed_balance{hostname=\"$node\"}[10m]) * 6 * 24 * 30 * $quil_price ",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -5025,8 +5020,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5237,8 +5231,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5491,8 +5484,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5677,8 +5669,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5947,7 +5938,7 @@
         "auto_count": 100,
         "auto_min": "10s",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "2m",
           "value": "2m"
         },
@@ -6120,7 +6111,7 @@
     ]
   },
   "time": {
-    "from": "now-2d",
+    "from": "now-12h",
     "to": "now"
   },
   "timeRangeUpdatedDuringEditOrView": false,
@@ -6150,6 +6141,6 @@
   "timezone": "browser",
   "title": "Quilibrium Dashboard",
   "uid": "xfpJB9FGz",
-  "version": 61,
+  "version": 64,
   "weekStart": "monday"
 }
