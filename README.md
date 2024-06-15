@@ -190,4 +190,6 @@ Go to your Grafana instance
     * Select the various datasources
 
 
+Once everything is set up, wait at least 30 minutes to get good metrics on your dashboard :)
+
 That's all! Enjoy!
