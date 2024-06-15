@@ -5,11 +5,16 @@ import socket
 import re
 import os
 import platform
+import logging
 
 from dotenv import load_dotenv # type: ignore
 load_dotenv()
 
 app = Flask(__name__)
+
+# Configure the logger
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 # Define the working directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -57,7 +62,7 @@ def fetch_data_from_node():
     try:
         node_binary= find_node_binary()
         if (node_binary is not None):
-            result = subprocess.run([node_binary, '-node-info'], cwd=working_directory, capture_output=True, text=True)
+            result = subprocess.run([f'./{node_binary}', '-node-info'], cwd=working_directory, capture_output=True, text=True)
             output = result.stdout
             
             peer_id_match = re.search(r'Peer ID: (\S+)', output)
@@ -81,7 +86,7 @@ def fetch_data_from_node():
         return peer_id, hostname
 
     except Exception as e:
-        print(f"Error fetching data from command: {e}")
+        logger.error(f"Error fetching data from command: {e}")
         return None, None
 
 # Function to fetch data from logs
@@ -118,7 +123,7 @@ def fetch_data_from_logs(peer_id, hostname):
                 break
 
     except Exception as e:
-        print(f"Error fetching data from logs: {e}")
+        logger.error(f"Error fetching data from logs: {e}")
 
 @app.route('/metrics')
 def metrics():
