@@ -4,6 +4,7 @@ import subprocess
 import socket
 import re
 import os
+import platform
 
 app = Flask(__name__)
 
@@ -23,29 +24,53 @@ network_peer_count_metric = Gauge('quilibrium_network_peer_count', 'Network peer
 proof_increment_metric = Gauge('quilibrium_proof_increment', 'Proof increment', ['peer_id', 'hostname'], registry=registry)
 proof_time_taken_metric = Gauge('quilibrium_proof_time_taken', 'Proof time taken', ['peer_id', 'hostname'], registry=registry)
 
+# Find node version
+def get_node_version():
+    command = 'cat {0}/config/version.go | grep -A 1 "func GetVersion() \\[\\]byte {{" | grep -Eo "0x[0-9a-fA-F]+" | xargs printf "%d.%d.%d"'.format(working_directory)
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    return result.stdout
+
+# Function to find main node binary
+def find_node_binary():
+    file= None
+    version=get_node_version()
+    if version is not None:
+        os_type = platform.system().lower()
+        arch = platform.machine()
+        if os_type == "linux":
+            if arch == "aarch64":
+                file = f"node-{version}-linux-arm64"
+            else:
+                file = f"node-{version}-linux-amd64"
+        elif os_type == "darwin":
+            file = f"node-{version}-darwin-arm64"
+    return file
+
 # Function to fetch data from command
 def fetch_data_from_node():
     try:
-        result = subprocess.run(['./node', '-node-info'], cwd=working_directory, capture_output=True, text=True)
-        output = result.stdout
-        
-        peer_id_match = re.search(r'Peer ID: (\S+)', output)
-        peer_id = peer_id_match.group(1) if peer_id_match else 'unknown'
-        
-        peer_score_match = re.search(r'Peer Score: (\d+)', output)
-        peer_score = float(peer_score_match.group(1)) if peer_score_match else 0
-        
-        max_frame_match = re.search(r'Max Frame: (\d+)', output)
-        max_frame = float(max_frame_match.group(1)) if max_frame_match else 0
-        
-        unclaimed_balance_match = re.search(r'Unclaimed balance: ([\d\.]+)', output)
-        unclaimed_balance = float(unclaimed_balance_match.group(1)) if unclaimed_balance_match else 0
-        
-        hostname = socket.gethostname()
-        
-        peer_score_metric.labels(peer_id=peer_id, hostname=hostname).set(peer_score)
-        max_frame_metric.labels(peer_id=peer_id, hostname=hostname).set(max_frame)
-        unclaimed_balance_metric.labels(peer_id=peer_id, hostname=hostname).set(unclaimed_balance)
+        node_binary= find_node_binary()
+        if (node_binary is not None):
+            result = subprocess.run([node_binary, '-node-info'], cwd=working_directory, capture_output=True, text=True)
+            output = result.stdout
+            
+            peer_id_match = re.search(r'Peer ID: (\S+)', output)
+            peer_id = peer_id_match.group(1) if peer_id_match else 'unknown'
+            
+            peer_score_match = re.search(r'Peer Score: (\d+)', output)
+            peer_score = float(peer_score_match.group(1)) if peer_score_match else 0
+            
+            max_frame_match = re.search(r'Max Frame: (\d+)', output)
+            max_frame = float(max_frame_match.group(1)) if max_frame_match else 0
+            
+            unclaimed_balance_match = re.search(r'Unclaimed balance: ([\d\.]+)', output)
+            unclaimed_balance = float(unclaimed_balance_match.group(1)) if unclaimed_balance_match else 0
+            
+            hostname = socket.gethostname()
+            
+            peer_score_metric.labels(peer_id=peer_id, hostname=hostname).set(peer_score)
+            max_frame_metric.labels(peer_id=peer_id, hostname=hostname).set(max_frame)
+            unclaimed_balance_metric.labels(peer_id=peer_id, hostname=hostname).set(unclaimed_balance)
 
         return peer_id, hostname
 
