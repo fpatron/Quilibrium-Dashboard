@@ -35,26 +35,26 @@ network_peer_count_metric = Gauge('quilibrium_network_peer_count', 'Network peer
 proof_increment_metric = Gauge('quilibrium_proof_increment', 'Proof increment', ['peer_id', 'hostname'], registry=registry)
 proof_time_taken_metric = Gauge('quilibrium_proof_time_taken', 'Proof time taken', ['peer_id', 'hostname'], registry=registry)
 
-# Find node version
-def get_node_version():
-    command = 'cat {0}/config/version.go | grep -A 1 "func GetVersion() \\[\\]byte {{" | grep -Eo "0x[0-9a-fA-F]+" | xargs printf "%d.%d.%d"'.format(working_directory)
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
-    return result.stdout
-
 # Function to find main node binary
 def find_node_binary():
-    file= None
-    version=get_node_version()
-    if version is not None:
-        os_type = platform.system().lower()
-        arch = platform.machine()
-        if os_type == "linux":
-            if arch == "aarch64":
-                file = f"node-{version}-linux-arm64"
-            else:
-                file = f"node-{version}-linux-amd64"
-        elif os_type == "darwin":
-            file = f"node-{version}-darwin-arm64"
+    os_type = platform.system().lower()
+    arch = platform.machine()
+    if os_type == "linux":
+        if arch == "aarch64":
+            command = "find . -type f -name '*linux*arm64' | head -n 1"
+        else:
+            command = "find . -type f -name '*linux*amd64' | head -n 1"
+    elif os_type == "darwin":
+        command = "find . -type f -name '*darwin*arm64' | head -n 1"
+    else:
+        return None
+
+    result = result = subprocess.run(command, shell=True, cwd=working_directory, capture_output=True, text=True)
+    file = result.stdout.strip()
+    
+    if result.returncode != 0 or not file:
+        return None
+
     return file
 
 # Function to fetch data from command
@@ -62,7 +62,7 @@ def fetch_data_from_node():
     try:
         node_binary= find_node_binary()
         if (node_binary is not None):
-            result = subprocess.run([f'./{node_binary}', '-node-info'], cwd=working_directory, capture_output=True, text=True)
+            result = subprocess.run([node_binary, '-node-info'], cwd=working_directory, capture_output=True, text=True)
             output = result.stdout
             
             peer_id_match = re.search(r'Peer ID: (\S+)', output)
