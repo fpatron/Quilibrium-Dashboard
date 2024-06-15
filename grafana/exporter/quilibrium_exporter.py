@@ -6,11 +6,17 @@ import re
 import os
 import platform
 
+from dotenv import load_dotenv # type: ignore
+load_dotenv()
+
 app = Flask(__name__)
 
 # Define the working directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
-working_directory = f'{current_dir}/../ceremonyclient/node'
+working_directory = os.getenv("node_path") or f'{current_dir}/../ceremonyclient/node'
+
+# Systemd name
+service_name= os.getenv("service_name") or 'quilibrium'
 
 # Define the registry
 registry = CollectorRegistry()
@@ -81,7 +87,7 @@ def fetch_data_from_node():
 # Function to fetch data from logs
 def fetch_data_from_logs(peer_id, hostname):
     try:
-        result = subprocess.run(['journalctl', '-u', 'quilibrium', '--since', '1 hour ago', '--no-pager'], capture_output=True, text=True)
+        result = subprocess.run(['journalctl', '-u', service_name, '--since', '1 hour ago', '--no-pager'], capture_output=True, text=True)
         output = result.stdout.splitlines()
 
         peer_store_count = None
