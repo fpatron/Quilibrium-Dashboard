@@ -43,7 +43,7 @@ cd ~
 mkdir grafana
 cd grafana
 wget https://raw.githubusercontent.com/fpatron/Quilibrium-Dashboard/master/grafana/docker/docker-compose.yml
-docker-compose up -d
+sudo docker-compose up -d
 ```
 * Create your own Grafana instance on a VM or server of your choice
 
