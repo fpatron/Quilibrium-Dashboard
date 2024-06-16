@@ -10,7 +10,7 @@ It is preferable to have your own Grafana server for monitoring your nodes. If y
 
 To make the dashboard work, you need:
 * Grafana (dashboard)
-* Prometheus (metrics service)
+* Victoria Metrics (metrics service)
 * Loki (logs service)
 
 ## Installing Grafana / Victoria Metrics / Loki
@@ -39,11 +39,11 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 ```
 2. Install Docker image
 ```
-cd ~
+cd
 mkdir grafana
 cd grafana
 wget https://raw.githubusercontent.com/fpatron/Quilibrium-Dashboard/master/grafana/docker/docker-compose.yml
-sudo docker-compose up -d
+sudo docker compose up -d
 ```
 * Create your own Grafana instance on a VM or server of your choice
 
@@ -72,9 +72,9 @@ Description=Quilibrium node
 [Service]
 Type=simple
 RestartSec=10s
-WorkingDirectory=/home/user/quilibrium/ceremonyclient/node
-ExecStart=/home/user/quilibrium/ceremonyclient/node/release_autorun.sh
-User=user
+WorkingDirectory=/home/<username>/quilibrium/ceremonyclient/node
+ExecStart=/home/<username>/quilibrium/ceremonyclient/node/release_autorun.sh
+User=<username>
 [Install]
 WantedBy=multi-user.target
 ```
@@ -83,18 +83,19 @@ Replace the WorkingDirectory, ExecStart, and User tags with the correct values.
 
 Reload the configuration:
 ```
-systemctl daemon-reload
+sudo systemctl daemon-reload
+sudo systemctl enable quilibrium
 ```
 
 Usage examples:
 
 ```
 # Start the node:
-systemctl start quilibrium
+sudo systemctl start quilibrium
 # Stop the node:
-systemctl stop quilibrium
+sudo systemctl stop quilibrium
 # Restart the node:
-systemctl restart quilibrium
+sudo systemctl restart quilibrium
 # Follow the logs:
 journalctl -u quilibrium -f
 ```
@@ -111,6 +112,7 @@ It is necessary to install the custom node exporter on each node you want to mon
 * Prepare python environment
 ```
 sudo apt install python3 python3-pip python3-virtualenv
+mkdir -p ~/quilibrium/exporter
 cd ~/quilibrium/exporter
 virtualenv venv
 source venv/bin/activate
@@ -120,9 +122,9 @@ pip install -r requirements.txt
 * Copy the file into /lib/systemd/system (adapt with your needs)
 * Enable the service:
 ```
-systemctl daemon-reload
-systemctl enable quilibrium_exporter.service
-systemctl start quilibrium_exporter.service
+sudo systemctl daemon-reload
+sudo systemctl enable quilibrium_exporter
+sudo systemctl start quilibrium_exporter
 ```
 
 ### Installing Grafana Alloy
