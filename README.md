@@ -13,22 +13,93 @@ To make the dashboard work, you need:
 * Prometheus (metrics service)
 * Loki (logs service)
 
-## Installing Grafana / Prometheus / Loki
+## Installing Grafana / Victoria Metrics / Loki
 
 You have multiple choices to create your Grafana instance:
 
 * Use Grafana Cloud: they provided a limited free plan
 * Use the provided Docker image to create your own Grafana instance
-  ```
-  cd ~ && mkdir grafpromloki && cd grafpromloki && wget https://raw.githubusercontent.com/fpatron/Quilibrium-Dashboard/master/grafana/docker/docker-compose.yml && docker-compose up -d
-  ```
+1. Install Docker
+```
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+2. Install Docker image
+```
+cd ~
+mkdir grafana
+cd grafana
+wget https://raw.githubusercontent.com/fpatron/Quilibrium-Dashboard/master/grafana/docker/docker-compose.yml
+docker-compose up -d
+```
 * Create your own Grafana instance on a VM or server of your choice
 
-Tips: Prometheus server needs to be launch with the following flags:
-
-`--web.enable-remote-write-receiver`
-
 ## Prepare each node
+
+### Prerequisites
+
+### **<span style="color:red">IMPORTANT</span>** 
+
+The dashboard needs Quilibrium logs to function. To do this, your node must run as a service.
+
+#### Use Cases
+
+* If you use a service and your service is named Quilibrium, you don't need to do anything.
+* If you use a service and your service is not named Quilibrium: you can create a .env file into the exporter directory and override the default name using this parameter `service_name`
+* If you use screen to run your node, you must use a service to run your node because the Grafana dashboard is not optimized for managing screens.
+
+As root, create the file `/lib/systemd/system/quilibrium.service`with the following content:
+```
+sudo nano /lib/systemd/system/quilibrium.service
+```
+
+```
+[Unit]
+Description=Quilibrium node
+[Service]
+Type=simple
+RestartSec=10s
+WorkingDirectory=/home/user/quilibrium/ceremonyclient/node
+ExecStart=/home/user/quilibrium/ceremonyclient/node/release_autorun.sh
+User=user
+[Install]
+WantedBy=multi-user.target
+```
+
+Replace the WorkingDirectory, ExecStart, and User tags with the correct values.
+
+Reload the configuration:
+```
+systemctl daemon-reload
+```
+
+Usage examples:
+
+```
+# Start the node:
+systemctl start quilibrium
+# Stop the node:
+systemctl stop quilibrium
+# Restart the node:
+systemctl restart quilibrium
+# Follow the logs:
+journalctl -u quilibrium -f
+```
+
+Note: Your node will now start automatically in case of a crash and at every server reboot.
 
 ### Installing the Quilibrium node exporter
 
@@ -37,10 +108,6 @@ It is necessary to install the custom node exporter on each node you want to mon
 * Create a directory `exporter`in the root of Quilibrium node (ie: `/home/user/quilibrium/exporter`)
 * Copy the files [quilibrium_exporter.py](grafana/exporter/quilibrium_exporter.py) [requirements.txt](grafana/exporter/requirements.txt) into
 * Go to your node directory (/home/user/quilibrium/ceremonyclient/node for ie)
-* Execute this command
-```
-ln -s ./node-1.4.19-linux-amd64 ./node
-```
 * Prepare python environment
 ```
 sudo apt install python3 python3-pip python3-virtualenv
@@ -48,7 +115,6 @@ cd ~/quilibrium/exporter
 virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
-
 ```
 * Create a dedicated service to launch the exporter at runtime (see file [quilibrium_exporter.service](grafana/exporter/quilibrium_exporter.service))
 * Copy the file into /lib/systemd/system (adapt with your needs)
@@ -94,69 +160,6 @@ Replace the following tags with your own information:
 If you use the Grafana Cloud suite, you will need to generate an API key for Prometheus and Loki.
 Replace the Prometheus and Loki passwords with this key.
 
-
-### **<span style="color:red">IMPORTANT</span>** 
-
-By default, the example configuration retrieves the Quilibrium node logs in your server's logs.
-This only works if you run your node with a service (systemctl).
-
-#### Use Cases
-
-* If you use a service and your service is named Quilibrium, you don't need to do anything.
-* If you use a service and your service is not named Quilibrium, rename the service to quilibrium.service and reload the configuration:
-```
-systemctl daemon-reload
-```
-* If you use screen to run your node, you now need to use a service to run your node because the Grafana dashboard is not optimized for managing screens.
-
-As root, create the file `/lib/systemd/system/quilibrium.service`with the following content:
-```
-sudo nano /lib/systemd/system/quilibrium.service
-```
-
-```
-[Unit]
-Description=Quilibrium node
-[Service]
-Type=simple
-Restart=always
-RestartSec=5s
-WorkingDirectory=/home/user/quilibrium/ceremonyclient/node
-Environment="GOMAXPROCS=8"
-Environment=GOEXPERIMENT=arenas
-ExecStart=/home/user/quilibrium/ceremonyclient/node/node-1.4.18-linux-amd64
-User=user
-[Install]
-WantedBy=multi-user.target
-```
-
-Replace the WorkingDirectory, ExecStart, and User tags with the correct values.
-
-Reload the configuration:
-```
-systemctl daemon-reload
-```
-
-Usage examples:
-
-* Start the node:
-```
-systemctl start quilibrium
-```
-* Stop the node:
-```
-systemctl stop quilibrium
-```
-* Restart the node:
-```
-systemctl restart quilibrium
-```
-* Follow the logs:
-```
-journalctl -u quilibrium -f
-```
-
-Note: Your node will now start automatically in case of a crash and at every server reboot.
 
 ## Importing the Dashboard
 
