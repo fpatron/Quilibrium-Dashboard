@@ -24,6 +24,8 @@ services:
       - GF_AUTH_BASIC_ENABLED=false
     volumes:
       - ./grafana:/etc/grafana/provisioning/
+    restart: always
+
 
 
   loki:
@@ -33,3 +35,4 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - grafananet
+    restart: always
