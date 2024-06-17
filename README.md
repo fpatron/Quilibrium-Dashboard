@@ -126,11 +126,26 @@ virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-* Create a dedicated service to launch the exporter at runtime (see file [quilibrium_exporter.service](grafana/exporter/quilibrium_exporter.service)`
+* Create a dedicated service to launch the exporter at runtime (see file [quilibrium_exporter.service](grafana/exporter/quilibrium_exporter.service))
 ```
 sudo nano /lib/systemd/system/quilibrium_exporter.service
 ```
-* Copy the content file into (adapt with your needs)
+
+```
+[Unit]
+Description=Quilibrium Exporter Service
+After=network.target
+[Service]
+User=<username>
+Group=<username>
+WorkingDirectory=/home/<username>/quilibrium/exporter
+ExecStart=/home/<username>/quilibrium/exporter/venv/bin/python /home/<username>/quilibrium/exporter/quilibrium_exporter.py
+Restart=always
+[Install]
+WantedBy=multi-user.target
+```
+Replace the <username> values and paths if needed with the correct values.
+
 * Enable the service:
 ```
 sudo systemctl daemon-reload
