@@ -106,8 +106,16 @@ Note: Your node will now start automatically in case of a crash and at every ser
 
 It is necessary to install the custom node exporter on each node you want to monitor in order to send custom metrics:
 
-* Create a directory `exporter`in the root of Quilibrium node (ie: `/home/user/quilibrium/exporter`)
-* Copy the files [quilibrium_exporter.py](grafana/exporter/quilibrium_exporter.py) [requirements.txt](grafana/exporter/requirements.txt) into
+* Create a directory `exporter`in the root of Quilibrium node
+ ```
+ mkdir -p ~/quilibrium/exporter
+ ```
+* Get files [quilibrium_exporter.py](grafana/exporter/quilibrium_exporter.py) [requirements.txt](grafana/exporter/requirements.txt) into
+```
+cd ~/quilibrium/exporter
+wget https://github.com/fpatron/Quilibrium-Dashboard/raw/master/grafana/exporter/quilibrium_exporter.py
+wget https://github.com/fpatron/Quilibrium-Dashboard/raw/master/grafana/exporter/requirements.txt
+```
 * Go to your node directory (/home/user/quilibrium/ceremonyclient/node for ie)
 * Prepare python environment
 ```
@@ -118,8 +126,11 @@ virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-* Create a dedicated service to launch the exporter at runtime (see file [quilibrium_exporter.service](grafana/exporter/quilibrium_exporter.service))
-* Copy the file into /lib/systemd/system (adapt with your needs)
+* Create a dedicated service to launch the exporter at runtime (see file [quilibrium_exporter.service](grafana/exporter/quilibrium_exporter.service)`
+```
+sudo nano /lib/systemd/system/quilibrium_exporter.service
+```
+* Copy the content file into (adapt with your needs)
 * Enable the service:
 ```
 sudo systemctl daemon-reload
