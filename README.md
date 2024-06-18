@@ -188,6 +188,12 @@ Replace the following tags with your own information:
 If you use the Grafana Cloud suite, you will need to generate an API key for Prometheus and Loki.
 Replace the Prometheus and Loki passwords with this key.
 
+Restart alloy 
+
+```
+sudo systemctl alloy
+```
+
 
 ## Importing the Dashboard
 
