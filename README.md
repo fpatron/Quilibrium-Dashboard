@@ -191,7 +191,7 @@ Replace the Prometheus and Loki passwords with this key.
 Restart alloy 
 
 ```
-sudo systemctl alloy
+sudo systemctl restart alloy
 ```
 
 
