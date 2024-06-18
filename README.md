@@ -6,7 +6,7 @@ This project allows you to monitor your Quilibrium nodes directly in Grafana, pr
 
 ## Prerequisites
 
-It is preferable to have your own Grafana server for monitoring your nodes. If you have a few nodes (maximum 5), you can use Grafana Cloud which will provide you with the necessary stack (https://grafana.com/)[https://grafana.com/]
+It is preferable to have your own Grafana server for monitoring your nodes. If you have a few nodes (maximum 5), you can use Grafana Cloud which will provide you with the necessary stack [https://grafana.com/](https://grafana.com/)
 
 To make the dashboard work, you need:
 * Grafana (dashboard)
