@@ -29,6 +29,12 @@
   "__requires": [
     {
       "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "panel",
       "id": "bargauge",
       "name": "Bar gauge",
       "version": ""
@@ -488,7 +494,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 16,
+        "w": 8,
         "x": 8,
         "y": 1
       },
@@ -557,6 +563,144 @@
         }
       ],
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
+      "id": 233,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "cores",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "cores",
+              "text": "",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "json_options": {
+            "columnar": false,
+            "root_is_not_array": false
+          },
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "$.*",
+          "source": "url",
+          "summarizeBy": "cores",
+          "summarizeExpression": "count(cores)",
+          "type": "json",
+          "uql": "parse-json",
+          "url": "https://dashboard-api.quilibrium.com/network-info",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Number of nodes by cores",
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "cores"
+              }
+            ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "summary": "Nodes"
+            }
+          }
+        }
+      ],
+      "type": "barchart"
     },
     {
       "datasource": {
@@ -881,8 +1025,7 @@
                 "value": null
               }
             ]
-          },
-          "unit": "currencyUSD"
+          }
         },
         "overrides": []
       },
@@ -892,7 +1035,7 @@
         "x": 4,
         "y": 10
       },
-      "id": 204,
+      "id": 202,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -919,7 +1062,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24) * $quil_price",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24)",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -930,7 +1073,7 @@
           "useBackend": false
         }
       ],
-      "title": "Estimated $ / day",
+      "title": "Estimated Q / day",
       "type": "stat"
     },
     {
@@ -952,7 +1095,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "currencyUSD"
         },
         "overrides": []
       },
@@ -962,7 +1106,7 @@
         "x": 8,
         "y": 10
       },
-      "id": 203,
+      "id": 205,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -989,7 +1133,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30)",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30) * $quil_price",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1000,7 +1144,7 @@
           "useBackend": false
         }
       ],
-      "title": "Estimated Q / month",
+      "title": "Estimated $ / month",
       "type": "stat"
     },
     {
@@ -1364,7 +1508,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "currencyUSD"
         },
         "overrides": []
       },
@@ -1374,7 +1519,7 @@
         "x": 4,
         "y": 13
       },
-      "id": 202,
+      "id": 204,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -1401,7 +1546,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24)",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24) * $quil_price",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1412,7 +1557,7 @@
           "useBackend": false
         }
       ],
-      "title": "Estimated Q / day",
+      "title": "Estimated $ / day",
       "type": "stat"
     },
     {
@@ -1434,8 +1579,7 @@
                 "value": null
               }
             ]
-          },
-          "unit": "currencyUSD"
+          }
         },
         "overrides": []
       },
@@ -1445,7 +1589,7 @@
         "x": 8,
         "y": 13
       },
-      "id": 205,
+      "id": 203,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -1472,7 +1616,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30) * $quil_price",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30)",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1483,7 +1627,7 @@
           "useBackend": false
         }
       ],
-      "title": "Estimated $ / month",
+      "title": "Estimated Q / month",
       "type": "stat"
     },
     {
@@ -2694,6 +2838,146 @@
       "type": "table"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 3,
+        "y": 44
+      },
+      "id": 211,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "increase(quilibrium_unclaimed_balance{hostname=\"$node\"}[10m]) * 6 * 24 * $quil_price",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated $ / day",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 6,
+        "y": 44
+      },
+      "id": 213,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "increase(quilibrium_unclaimed_balance{hostname=\"$node\"}[10m]) * 6 * 24 * 30 * $quil_price ",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated $ / month",
+      "type": "stat"
+    },
+    {
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
@@ -2703,7 +2987,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 44
+        "y": 46
       },
       "id": 189,
       "panels": [],
@@ -2734,8 +3018,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -2746,7 +3029,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 45
+        "y": 47
       },
       "id": 208,
       "options": {
@@ -2804,8 +3087,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -2816,7 +3098,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 45
+        "y": 47
       },
       "id": 210,
       "options": {
@@ -2874,8 +3156,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -2886,7 +3167,7 @@
         "h": 2,
         "w": 3,
         "x": 6,
-        "y": 45
+        "y": 47
       },
       "id": 212,
       "options": {
@@ -2944,8 +3225,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -2956,7 +3236,7 @@
         "h": 2,
         "w": 3,
         "x": 9,
-        "y": 45
+        "y": 47
       },
       "id": 215,
       "options": {
@@ -3046,8 +3326,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3062,7 +3341,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 45
+        "y": 47
       },
       "id": 220,
       "options": {
@@ -3110,8 +3389,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -3123,7 +3401,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 47
+        "y": 49
       },
       "id": 209,
       "options": {
@@ -3171,153 +3449,11 @@
         "type": "prometheus",
         "uid": "${DS_VICTORIAMETRICS}"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "currencyUSD"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 3,
-        "y": 47
-      },
-      "id": 211,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_VICTORIAMETRICS}"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance{hostname=\"$node\"}[10m]) * 6 * 24 * $quil_price",
-          "format": "table",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "Estimated $ / day",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_VICTORIAMETRICS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "currencyUSD"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 6,
-        "y": 47
-      },
-      "id": 213,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_VICTORIAMETRICS}"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance{hostname=\"$node\"}[10m]) * 6 * 24 * 30 * $quil_price ",
-          "format": "table",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "Estimated $ / month",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_VICTORIAMETRICS}"
-      },
       "gridPos": {
         "h": 3,
         "w": 12,
         "x": 0,
-        "y": 49
+        "y": 51
       },
       "id": 214,
       "options": {
@@ -3385,8 +3521,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -3397,7 +3532,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 52
+        "y": 54
       },
       "id": 194,
       "options": {
@@ -3490,8 +3625,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3506,7 +3640,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 52
+        "y": 54
       },
       "id": 193,
       "options": {
@@ -3562,8 +3696,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -3583,7 +3716,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 59
+        "y": 61
       },
       "hideTimeOverride": true,
       "id": 15,
@@ -3653,8 +3786,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -3674,7 +3806,7 @@
         "h": 6,
         "w": 6,
         "x": 2,
-        "y": 59
+        "y": 61
       },
       "id": 177,
       "options": {
@@ -3779,8 +3911,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3818,8 +3949,7 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(50, 172, 45, 0.97)",
-                      "value": null
+                      "color": "rgba(50, 172, 45, 0.97)"
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)"
@@ -3862,8 +3992,7 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(245, 54, 54, 0.9)",
-                      "value": null
+                      "color": "rgba(245, 54, 54, 0.9)"
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)",
@@ -3911,8 +4040,7 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(50, 172, 45, 0.97)",
-                      "value": null
+                      "color": "rgba(50, 172, 45, 0.97)"
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)",
@@ -3998,7 +4126,7 @@
         "h": 6,
         "w": 8,
         "x": 8,
-        "y": 59
+        "y": 61
       },
       "id": 181,
       "links": [
@@ -4149,8 +4277,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -4309,7 +4436,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 59
+        "y": 61
       },
       "id": 183,
       "options": {
@@ -4386,8 +4513,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -4407,7 +4533,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 61
+        "y": 63
       },
       "id": 14,
       "maxDataPoints": 100,
@@ -4472,8 +4598,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -4493,7 +4618,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 63
+        "y": 65
       },
       "id": 75,
       "maxDataPoints": 100,
@@ -4584,8 +4709,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -4856,7 +4980,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 65
+        "y": 67
       },
       "id": 7,
       "options": {
@@ -4990,8 +5114,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5245,7 +5368,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 65
+        "y": 67
       },
       "id": 156,
       "options": {
@@ -5427,8 +5550,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5527,7 +5649,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 65
+        "y": 67
       },
       "id": 157,
       "options": {
@@ -5628,8 +5750,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5746,7 +5867,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 73
+        "y": 75
       },
       "id": 13,
       "options": {
@@ -5840,8 +5961,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5958,7 +6078,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 73
+        "y": 75
       },
       "id": 216,
       "options": {
@@ -6094,8 +6214,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -6180,7 +6299,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 73
+        "y": 75
       },
       "id": 174,
       "options": {
@@ -6364,7 +6483,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 81
+        "y": 83
       },
       "id": 168,
       "options": {
@@ -6549,7 +6668,7 @@
         "auto_count": 100,
         "auto_min": "10s",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "2m",
           "value": "2m"
         },
@@ -6757,6 +6876,6 @@
   "timezone": "browser",
   "title": "Quilibrium Dashboard",
   "uid": "xfpJB9FGz",
-  "version": 22,
+  "version": 3,
   "weekStart": "monday"
 }
