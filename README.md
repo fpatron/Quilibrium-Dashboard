@@ -19,7 +19,7 @@ To make the dashboard work, you need:
 1. Install grafana server: follow instructions [here](#install_grafana)
 2. Install alloy agent on your nodes **<span style="color:red">(this only works on Ubuntu 22.04 and Debian 12)</span>** 
 ```
-sudo bash <(wget -qO- https://raw.githubusercontent.com/fpatron/Quilibrium-Dashboard/master/grafana/exporter/install_linux.sh)
+bash <(wget -qO- https://raw.githubusercontent.com/fpatron/Quilibrium-Dashboard/master/grafana/exporter/install_linux.sh)
 ```
 3. Import grafana Dashboard: follow instructions [here](#import_dashboard)
 
