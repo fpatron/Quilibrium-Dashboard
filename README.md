@@ -13,7 +13,17 @@ To make the dashboard work, you need:
 * Victoria Metrics (metrics service)
 * Loki (logs service)
 
-## Installing Grafana / Victoria Metrics / Loki
+
+## Quick start
+
+1. Install grafana server: follow instructions [here](#install_grafana)
+2. Install alloy agent on your nodes **<span style="color:red">(this only works on Ubuntu 22.04 and Debian 12)</span>** 
+```
+bash <(wget -qO- https://raw.githubusercontent.com/fpatron/Quilibrium-Dashboard/master/grafana/exporter/install_linux.sh)
+```
+3. Import grafana Dashboard: follow instructions [here](#import_dashboard)
+
+## Installing Grafana / Victoria Metrics / Loki <a id='install_grafana'></a>
 
 You have multiple choices to create your Grafana instance:
 
@@ -120,8 +130,6 @@ wget https://github.com/fpatron/Quilibrium-Dashboard/raw/master/grafana/exporter
 * Prepare python environment
 ```
 sudo apt install python3 python3-pip python3-virtualenv
-mkdir -p ~/quilibrium/exporter
-cd ~/quilibrium/exporter
 virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -195,7 +203,7 @@ sudo systemctl restart alloy
 ```
 
 
-## Importing the Dashboard
+## Importing the Dashboard <a id='import_dashboard'></a>
 
 Go to your Grafana instance
 
