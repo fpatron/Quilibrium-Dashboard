@@ -11,10 +11,15 @@ ask() {
 # Function to check if a directory contains an executable file starting with "node-"
 is_valid_node_path() {
     local path=$1
-    if [[ -d $path && $(ls "$path" | grep -E '^node-' | xargs -I {} test -x "$path/{}" && echo 1) ]]; then
-        return 0
-    else
-        return 1
+     if [[ -d $path ]]; then
+        for file in $(ls $path | grep -E '^node-.*linux-amd64$'); do
+            file="$path/$file"
+            if [[ -x "$file" && -f "$file" ]]; then
+                return 0
+            else
+                return 1
+            fi
+        done
     fi
 }
 
