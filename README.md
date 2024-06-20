@@ -79,6 +79,7 @@ sudo nano /lib/systemd/system/quilibrium.service
 ```
 [Unit]
 Description=Quilibrium node
+After=network.target
 [Service]
 Type=simple
 RestartSec=10s
