@@ -121,6 +121,18 @@
       "tooltip": "",
       "type": "link",
       "url": "https://github.com/fpatron/Quilibrium-Dashboard"
+    },
+    {
+      "asDropdown": false,
+      "icon": "bolt",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Update",
+      "tooltip": "Update dashboard",
+      "type": "link",
+      "url": "https://github.com/fpatron/Quilibrium-Dashboard/blob/master/grafana/dashboard/quilibrium-dashboard.json"
     }
   ],
   "panels": [
@@ -198,7 +210,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "count(count by (instance) ({__name__=~\".+\",job=\"integrations/quilibrium_exporter\"}))",
+          "expr": "count(count by (instance) ({__name__=~\".+\",job=\"integrations/quilibrium_exporter\"}[$__range]))",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -983,13 +995,13 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(quilibrium_unclaimed_balance)",
+          "expr": "sum(last_over_time(quilibrium_unclaimed_balance[$__range]))",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
-          "instant": false,
+          "instant": true,
           "legendFormat": "__auto",
-          "range": true,
+          "range": false,
           "refId": "A",
           "useBackend": false
         }
@@ -1200,7 +1212,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(quilibrium_unclaimed_balance [1h])",
+          "expr": "last_over_time(quilibrium_unclaimed_balance [$__range])",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1216,7 +1228,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(quilibrium_max_frame [1h])",
+          "expr": "last_over_time(quilibrium_max_frame [$__range])",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1263,7 +1275,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(quilibrium_unclaimed_balance [1h]) * $quil_price",
+          "expr": "last_over_time(quilibrium_unclaimed_balance [$__range]) * $quil_price",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1465,13 +1477,13 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(quilibrium_unclaimed_balance) * $quil_price",
+          "expr": "sum(last_over_time(quilibrium_unclaimed_balance[$__range])) * $quil_price",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
-          "instant": false,
+          "instant": true,
           "legendFormat": "__auto",
-          "range": true,
+          "range": false,
           "refId": "A",
           "useBackend": false
         }
@@ -1707,8 +1719,9 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "sum(quilibrium_unclaimed_balance)",
-          "instant": false,
+          "exemplar": false,
+          "expr": "sum(last_over_time(quilibrium_unclaimed_balance[$__range]))",
+          "instant": true,
           "legendFormat": "{{hostname}}",
           "range": true,
           "refId": "A"
@@ -3520,7 +3533,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3624,7 +3638,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3695,7 +3710,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)"
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -3785,7 +3801,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "#EAB839",
@@ -3910,7 +3927,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3948,7 +3966,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(50, 172, 45, 0.97)"
+                      "color": "rgba(50, 172, 45, 0.97)",
+                      "value": null
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)"
@@ -3991,7 +4010,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(245, 54, 54, 0.9)"
+                      "color": "rgba(245, 54, 54, 0.9)",
+                      "value": null
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)",
@@ -4039,7 +4059,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(50, 172, 45, 0.97)"
+                      "color": "rgba(50, 172, 45, 0.97)",
+                      "value": null
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)",
@@ -4276,7 +4297,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -4512,7 +4534,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)"
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -4597,7 +4620,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)"
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -4708,7 +4732,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -5113,7 +5138,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -5549,7 +5575,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -5749,7 +5776,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -5960,7 +5988,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -6213,7 +6242,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -6398,7 +6428,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -6833,7 +6864,7 @@
           "query": "label_values(peer_id)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
-        "refresh": 1,
+        "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 5,
@@ -6845,7 +6876,7 @@
     ]
   },
   "time": {
-    "from": "now-7d",
+    "from": "now-30d",
     "to": "now"
   },
   "timeRangeUpdatedDuringEditOrView": false,
@@ -6875,6 +6906,6 @@
   "timezone": "browser",
   "title": "Quilibrium Dashboard",
   "uid": "xfpJB9FGz",
-  "version": 8,
+  "version": 12,
   "weekStart": "monday"
 }
