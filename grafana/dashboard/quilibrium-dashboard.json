@@ -995,7 +995,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(last_over_time(quilibrium_unclaimed_balance[$__range]))",
+          "expr": "sum(last_over_time(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[$__range]))",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1065,7 +1065,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24)",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24)",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1135,7 +1135,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30)",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24 * 30)",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1212,7 +1212,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(quilibrium_unclaimed_balance [$__range])",
+          "expr": "last_over_time(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"} [$__range])",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1228,7 +1228,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(quilibrium_max_frame [$__range])",
+          "expr": "last_over_time(quilibrium_max_frame{instance=\"127.0.0.1:5001\"} [$__range])",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1245,7 +1245,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24",
+          "expr": "increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1260,7 +1260,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30",
+          "expr": "increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24 * 30",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1275,7 +1275,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(quilibrium_unclaimed_balance [$__range]) * $quil_price",
+          "expr": "last_over_time(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"} [$__range]) * $quil_price",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1291,7 +1291,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * $quil_price",
+          "expr": "increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24 * $quil_price",
           "format": "table",
           "fullMetaSearch": false,
           "hide": false,
@@ -1309,7 +1309,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30 * $quil_price",
+          "expr": "increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24 * 30 * $quil_price",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1477,7 +1477,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(last_over_time(quilibrium_unclaimed_balance[$__range])) * $quil_price",
+          "expr": "sum(last_over_time(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[$__range])) * $quil_price",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1548,7 +1548,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24) * $quil_price",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24) * $quil_price",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1619,7 +1619,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{}[10m]) * 6 * 24 * 30) * $quil_price",
+          "expr": "sum(increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24 * 30) * $quil_price",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -2882,8 +2882,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -2952,8 +2951,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -3022,8 +3020,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -3092,8 +3089,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -3194,8 +3190,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3258,8 +3253,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -3329,8 +3323,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -3400,8 +3393,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -3533,8 +3525,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -3638,8 +3629,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3710,8 +3700,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -3801,8 +3790,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -3927,8 +3915,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3966,8 +3953,7 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(50, 172, 45, 0.97)",
-                      "value": null
+                      "color": "rgba(50, 172, 45, 0.97)"
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)"
@@ -4010,8 +3996,7 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(245, 54, 54, 0.9)",
-                      "value": null
+                      "color": "rgba(245, 54, 54, 0.9)"
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)",
@@ -4059,8 +4044,7 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(50, 172, 45, 0.97)",
-                      "value": null
+                      "color": "rgba(50, 172, 45, 0.97)"
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)",
@@ -4297,8 +4281,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -4534,8 +4517,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -4620,8 +4602,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -4732,8 +4713,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5138,8 +5118,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5575,8 +5554,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5776,8 +5754,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -5988,8 +5965,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -6242,8 +6218,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -6428,8 +6403,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -6906,6 +6880,6 @@
   "timezone": "browser",
   "title": "Quilibrium Dashboard",
   "uid": "xfpJB9FGz",
-  "version": 12,
+  "version": 14,
   "weekStart": "monday"
 }
