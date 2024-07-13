@@ -4,6 +4,18 @@ This project allows you to monitor your Quilibrium nodes directly in Grafana, pr
 
 <img src="dashboard.png" />
 
+## **<span style="color:red">Important news 13/07/2024</span>**
+
+The Quilibrium dashboard is a victim of its own success and has reached the allowed quotas for retrieving the price history of Quil on Live Coin Watch.
+
+From now on, you must register your own Live Coin Watch key to track the Quil price in dollars.
+To do this:
+
+* Create an account on Live Coin Watch
+* Go to this page: https://www.livecoinwatch.com/tools/api
+* Copy your API key 
+* Register it on the dashboard, at the top left corner
+
 ## Prerequisites
 
 It is preferable to have your own Grafana server for monitoring your nodes. If you have a few nodes (maximum 5), you can use Grafana Cloud which will provide you with the necessary stack [https://grafana.com/](https://grafana.com/)

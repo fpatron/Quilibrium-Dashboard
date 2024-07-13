@@ -390,7 +390,7 @@
             "headers": [
               {
                 "key": "x-api-key",
-                "value": "c1a3670b-fa4d-438f-8a93-19a204f10c82"
+                "value": "$livecoinwatch_token"
               }
             ],
             "method": "POST"
@@ -540,7 +540,7 @@
             "headers": [
               {
                 "key": "x-api-key",
-                "value": "c1a3670b-fa4d-438f-8a93-19a204f10c82"
+                "value": "$livecoinwatch_token"
               }
             ],
             "method": "POST"
@@ -882,7 +882,7 @@
             "headers": [
               {
                 "key": "x-api-key",
-                "value": "c1a3670b-fa4d-438f-8a93-19a204f10c82"
+                "value": "$livecoinwatch_token"
               }
             ],
             "method": "POST"
@@ -2882,7 +2882,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -2951,7 +2952,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3020,7 +3022,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3089,7 +3092,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3190,7 +3194,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3253,7 +3258,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -3323,7 +3329,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -3393,7 +3400,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -3525,7 +3533,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3629,7 +3638,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3700,7 +3710,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)"
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -3790,7 +3801,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "#EAB839",
@@ -3915,7 +3927,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3953,7 +3966,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(50, 172, 45, 0.97)"
+                      "color": "rgba(50, 172, 45, 0.97)",
+                      "value": null
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)"
@@ -3996,7 +4010,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(245, 54, 54, 0.9)"
+                      "color": "rgba(245, 54, 54, 0.9)",
+                      "value": null
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)",
@@ -4044,7 +4059,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(50, 172, 45, 0.97)"
+                      "color": "rgba(50, 172, 45, 0.97)",
+                      "value": null
                     },
                     {
                       "color": "rgba(237, 129, 40, 0.89)",
@@ -4281,7 +4297,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -4517,7 +4534,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)"
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -4602,7 +4620,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)"
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -4713,7 +4732,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -5118,7 +5138,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -5554,7 +5575,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -5754,7 +5776,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -5965,7 +5988,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -6218,7 +6242,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -6403,7 +6428,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -6542,7 +6568,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "1m",
+  "refresh": "15m",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
@@ -6555,7 +6581,7 @@
           "uid": "${DS_VICTORIAMETRICS}"
         },
         "definition": "label_values(origin_prometheus)",
-        "hide": 0,
+        "hide": 2,
         "includeAll": false,
         "label": "Origin_prom",
         "multi": false,
@@ -6578,7 +6604,7 @@
           "uid": "${DS_VICTORIAMETRICS}"
         },
         "definition": "label_values(node_uname_info{origin_prometheus=~\"$origin_prometheus\"}, job)",
-        "hide": 0,
+        "hide": 2,
         "includeAll": false,
         "label": "JOB",
         "multi": false,
@@ -6625,7 +6651,7 @@
           "uid": "${DS_VICTORIAMETRICS}"
         },
         "definition": "label_values(node_uname_info{origin_prometheus=~\"$origin_prometheus\",job=~\"$job\",nodename=~\"$hostname\"},instance)",
-        "hide": 0,
+        "hide": 2,
         "includeAll": false,
         "label": "Instance",
         "multi": true,
@@ -6650,7 +6676,7 @@
           "uid": "${DS_VICTORIAMETRICS}"
         },
         "definition": "label_values(node_network_info{origin_prometheus=~\"$origin_prometheus\",device!~'tap.*|veth.*|br.*|docker.*|virbr.*|lo.*|cni.*'},device)",
-        "hide": 0,
+        "hide": 2,
         "includeAll": true,
         "label": "NIC",
         "multi": true,
@@ -6676,7 +6702,7 @@
           "text": "2m",
           "value": "2m"
         },
-        "hide": 0,
+        "hide": 2,
         "label": "Interval",
         "name": "interval",
         "options": [
@@ -6721,6 +6747,26 @@
         "refresh": 2,
         "skipUrlSync": false,
         "type": "interval"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "hide": 0,
+        "label": "Live coin watch token",
+        "name": "livecoinwatch_token",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
       },
       {
         "current": {},
@@ -6800,7 +6846,7 @@
               "headers": [
                 {
                   "key": "x-api-key",
-                  "value": "c1a3670b-fa4d-438f-8a93-19a204f10c82"
+                  "value": "$livecoinwatch_token"
                 },
                 {
                   "key": "header-key",
@@ -6850,7 +6896,7 @@
     ]
   },
   "time": {
-    "from": "now-30d",
+    "from": "now-1h",
     "to": "now"
   },
   "timeRangeUpdatedDuringEditOrView": false,
@@ -6880,6 +6926,6 @@
   "timezone": "browser",
   "title": "Quilibrium Dashboard",
   "uid": "xfpJB9FGz",
-  "version": 14,
+  "version": 22,
   "weekStart": "monday"
 }
