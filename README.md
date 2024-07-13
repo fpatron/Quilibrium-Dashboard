@@ -4,10 +4,7 @@ This project allows you to monitor your Quilibrium nodes directly in Grafana, pr
 
 <img src="dashboard.png" />
 
-
-<code style="color : red">text</code>
-$${\color{red}Red}$$
-## **<span style="color:red">Important news 13/07/2024</span>**
+## $${\color{red}Important} \space {\color{red}News } \space {\color{red}13/04/2024}$$
 
 The Quilibrium dashboard is a victim of its own success and has reached the allowed quotas for retrieving the price history of Quil on Live Coin Watch.
 
