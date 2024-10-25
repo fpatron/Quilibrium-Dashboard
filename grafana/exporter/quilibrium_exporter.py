@@ -71,16 +71,12 @@ def fetch_data_from_node():
             peer_score_match = re.search(r'Peer Score: (\d+)', output)
             peer_score = float(peer_score_match.group(1)) if peer_score_match else 0
             
-            max_frame_match = re.search(r'Max Frame: (\d+)', output)
-            max_frame = float(max_frame_match.group(1)) if max_frame_match else 0
-            
-            unclaimed_balance_match = re.search(r'Unclaimed balance: ([\d\.]+)', output)
+            unclaimed_balance_match = re.search(r'Owned balance: ([\d\.]+) (\S+)', output)
             unclaimed_balance = float(unclaimed_balance_match.group(1)) if unclaimed_balance_match else 0
             
             hostname = socket.gethostname()
             
             peer_score_metric.labels(peer_id=peer_id, hostname=hostname).set(peer_score)
-            max_frame_metric.labels(peer_id=peer_id, hostname=hostname).set(max_frame)
             unclaimed_balance_metric.labels(peer_id=peer_id, hostname=hostname).set(unclaimed_balance)
 
         return peer_id, hostname
@@ -95,12 +91,18 @@ def fetch_data_from_logs(peer_id, hostname):
         result = subprocess.run(['journalctl', '-u', service_name, '--since', '1 hour ago', '--no-pager'], capture_output=True, text=True)
         output = result.stdout.splitlines()
 
+        max_frame = 0
         peer_store_count = None
         network_peer_count = None
         proof_increment = None
         proof_time_taken = None
 
         for line in reversed(output):
+            if max_frame is 0 and 'frame_number' in line:
+                max_frame_match = re.search(r'"frame_number":(\d+)', line)
+                if max_frame_match:
+                    max_frame = int(max_frame_match.group(1))
+                    max_frame_metric.labels(peer_id=peer_id, hostname=hostname).set(max_frame)
             if peer_store_count is None and 'peers in store' in line:
                 peer_store_count_match = re.search(r'"peer_store_count":(\d+)', line)
                 network_peer_count_match = re.search(r'"network_peer_count":(\d+)', line)
