@@ -33,7 +33,6 @@ unclaimed_balance_metric = Gauge('quilibrium_unclaimed_balance', 'Unclaimed bala
 peer_store_count_metric = Gauge('quilibrium_peer_store_count', 'Peers in store', ['peer_id', 'hostname'], registry=registry)
 network_peer_count_metric = Gauge('quilibrium_network_peer_count', 'Network peer count', ['peer_id', 'hostname'], registry=registry)
 proof_increment_metric = Gauge('quilibrium_proof_increment', 'Proof increment', ['peer_id', 'hostname'], registry=registry)
-proof_time_taken_metric = Gauge('quilibrium_proof_time_taken', 'Proof time taken', ['peer_id', 'hostname'], registry=registry)
 
 # Function to find main node binary
 def find_node_binary():
@@ -95,7 +94,6 @@ def fetch_data_from_logs(peer_id, hostname):
         peer_store_count = None
         network_peer_count = None
         proof_increment = None
-        proof_time_taken = None
 
         for line in reversed(output):
             if max_frame is 0 and 'frame_number' in line:
@@ -111,17 +109,14 @@ def fetch_data_from_logs(peer_id, hostname):
                     network_peer_count = int(network_peer_count_match.group(1))
                     peer_store_count_metric.labels(peer_id=peer_id, hostname=hostname).set(peer_store_count)
                     network_peer_count_metric.labels(peer_id=peer_id, hostname=hostname).set(network_peer_count)
-            if proof_increment is None and 'completed duration proof' in line:
+            if proof_increment is None and 'publishing proof batch' in line:
                 proof_increment_match = re.search(r'"increment":(\d+)', line)
-                proof_time_taken_match = re.search(r'"time_taken":([\d\.]+)', line)
-                if proof_increment_match and proof_time_taken_match:
+                if proof_increment_match:
                     proof_increment = int(proof_increment_match.group(1))
-                    proof_time_taken = float(proof_time_taken_match.group(1))
                     proof_increment_metric.labels(peer_id=peer_id, hostname=hostname).set(proof_increment)
-                    proof_time_taken_metric.labels(peer_id=peer_id, hostname=hostname).set(proof_time_taken)
             
-            if (peer_store_count is not None and network_peer_count is not None and 
-                proof_increment is not None and proof_time_taken is not None):
+            if (max_frame is not None and peer_store_count is not None and 
+                network_peer_count is not None and proof_increment is not None):
                 break
 
     except Exception as e:
@@ -135,7 +130,6 @@ def metrics():
     peer_store_count_metric.clear()
     network_peer_count_metric.clear()
     proof_increment_metric.clear()
-    proof_time_taken_metric.clear()
     
     peer_id, hostname = fetch_data_from_node()
     if peer_id and hostname:
