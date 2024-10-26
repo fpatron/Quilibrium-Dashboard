@@ -190,7 +190,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "count(count by (instance) ({__name__=~\".+\",job=\"integrations/quilibrium_exporter\"}[$__range]))",
+          "expr": "count(count by (peer_id) (quilibrium_unclaimed_balance[$__range]))",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -689,7 +689,7 @@
       },
       "id": 225,
       "panels": [],
-      "title": "Rewards post v1.4.19",
+      "title": "Data post v1.4.19",
       "type": "row"
     },
     {
@@ -749,7 +749,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(last_over_time(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[$__range]))",
+          "expr": "sum(last_over_time(quilibrium_unclaimed_balance[$__range]))",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -820,7 +820,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24)",
+          "expr": "sum(increase(quilibrium_unclaimed_balance[10m]) * 6 * 24)",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -891,7 +891,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24 * 30)",
+          "expr": "sum(increase(quilibrium_unclaimed_balance[10m]) * 6 * 24 * 30)",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -957,7 +957,12 @@
           "show": false
         },
         "showHeader": true,
-        "sortBy": []
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Max frame"
+          }
+        ]
       },
       "pluginVersion": "11.2.0",
       "targets": [
@@ -968,7 +973,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"} [$__range])",
+          "expr": "last_over_time(quilibrium_unclaimed_balance [$__range])",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -984,7 +989,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(quilibrium_max_frame{instance=\"127.0.0.1:5001\"} [$__range])",
+          "expr": "last_over_time(quilibrium_max_frame [$__range])",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1001,7 +1006,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24",
+          "expr": "increase(quilibrium_unclaimed_balance[10m]) * 6 * 24",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1016,7 +1021,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24 * 30",
+          "expr": "increase(quilibrium_unclaimed_balance[10m]) * 6 * 24 * 30",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1031,7 +1036,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"} [$__range]) * $quil_price",
+          "expr": "last_over_time(quilibrium_unclaimed_balance [$__range]) * $quil_price",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1047,7 +1052,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24 * $quil_price",
+          "expr": "increase(quilibrium_unclaimed_balance[10m]) * 6 * 24 * $quil_price",
           "format": "table",
           "fullMetaSearch": false,
           "hide": false,
@@ -1065,7 +1070,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24 * 30 * $quil_price",
+          "expr": "increase(quilibrium_unclaimed_balance[10m]) * 6 * 24 * 30 * $quil_price",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1081,7 +1086,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(quilibrium_proof_increment{instance=\"127.0.0.1:5001\"} [$__range])",
+          "expr": "last_over_time(quilibrium_proof_increment[$__range])",
           "format": "table",
           "fullMetaSearch": false,
           "hide": false,
@@ -1100,7 +1105,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(quilibrium_proof_time_taken{instance=\"127.0.0.1:5001\"} [$__range])",
+          "expr": "last_over_time(quilibrium_proof_time_taken [$__range])",
           "format": "table",
           "fullMetaSearch": false,
           "hide": false,
@@ -1297,7 +1302,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(last_over_time(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[$__range])) * $quil_price",
+          "expr": "sum(last_over_time(quilibrium_unclaimed_balance[$__range])) * $quil_price",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1369,7 +1374,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24) * $quil_price",
+          "expr": "sum(increase(quilibrium_unclaimed_balance[10m]) * 6 * 24) * $quil_price",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1441,7 +1446,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance{instance=\"127.0.0.1:5001\"}[10m]) * 6 * 24 * 30) * $quil_price",
+          "expr": "sum(increase(quilibrium_unclaimed_balance[10m]) * 6 * 24 * 30) * $quil_price",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1554,16 +1559,212 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 22
+      },
+      "id": 235,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "last_over_time(quilibrium_max_frame [$__range])",
+          "instant": true,
+          "legendFormat": "{{hostname}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Frames",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_VICTORIAMETRICS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 12,
+        "y": 22
+      },
+      "id": 236,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "last_over_time(quilibrium_proof_increment[$__range])",
+          "instant": true,
+          "legendFormat": "{{hostname}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Increments",
+      "type": "timeseries"
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 33
       },
       "id": 228,
       "panels": [],
-      "title": "Rewards pre v1.4.19",
+      "title": "Data pre v1.4.19",
       "type": "row"
     },
     {
@@ -1601,7 +1802,7 @@
         "h": 3,
         "w": 4,
         "x": 0,
-        "y": 23
+        "y": 34
       },
       "id": 227,
       "options": {
@@ -1707,7 +1908,7 @@
         "h": 9,
         "w": 14,
         "x": 10,
-        "y": 23
+        "y": 34
       },
       "id": 226,
       "options": {
@@ -1928,7 +2129,7 @@
         "h": 3,
         "w": 4,
         "x": 0,
-        "y": 26
+        "y": 37
       },
       "id": 232,
       "options": {
@@ -2004,7 +2205,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 32
+        "y": 43
       },
       "id": 187,
       "panels": [],
@@ -2440,7 +2641,7 @@
         "h": 11,
         "w": 24,
         "x": 0,
-        "y": 33
+        "y": 44
       },
       "id": 192,
       "options": {
@@ -2676,7 +2877,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 44
+        "y": 55
       },
       "id": 189,
       "panels": [],
@@ -2719,7 +2920,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 45
+        "y": 56
       },
       "id": 208,
       "options": {
@@ -2790,7 +2991,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 45
+        "y": 56
       },
       "id": 210,
       "options": {
@@ -2861,7 +3062,7 @@
         "h": 2,
         "w": 3,
         "x": 6,
-        "y": 45
+        "y": 56
       },
       "id": 212,
       "options": {
@@ -2969,7 +3170,7 @@
         "h": 6,
         "w": 15,
         "x": 9,
-        "y": 45
+        "y": 56
       },
       "id": 220,
       "options": {
@@ -3030,7 +3231,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 47
+        "y": 58
       },
       "id": 209,
       "options": {
@@ -3102,7 +3303,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 47
+        "y": 58
       },
       "id": 211,
       "options": {
@@ -3174,7 +3375,7 @@
         "h": 2,
         "w": 3,
         "x": 6,
-        "y": 47
+        "y": 58
       },
       "id": 213,
       "options": {
@@ -3245,7 +3446,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 49
+        "y": 60
       },
       "id": 215,
       "options": {
@@ -3316,7 +3517,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 49
+        "y": 60
       },
       "id": 233,
       "options": {
@@ -3388,7 +3589,7 @@
         "h": 2,
         "w": 3,
         "x": 6,
-        "y": 49
+        "y": 60
       },
       "id": 234,
       "options": {
@@ -3441,7 +3642,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 62
       },
       "id": 214,
       "options": {
@@ -3522,7 +3723,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 53
+        "y": 64
       },
       "id": 194,
       "options": {
@@ -3657,7 +3858,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 53
+        "y": 64
       },
       "id": 193,
       "options": {
@@ -3749,7 +3950,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 60
+        "y": 71
       },
       "hideTimeOverride": true,
       "id": 15,
@@ -3840,7 +4041,7 @@
         "h": 6,
         "w": 6,
         "x": 2,
-        "y": 60
+        "y": 71
       },
       "id": 177,
       "options": {
@@ -4164,7 +4365,7 @@
         "h": 6,
         "w": 8,
         "x": 8,
-        "y": 60
+        "y": 71
       },
       "id": 181,
       "links": [
@@ -4476,7 +4677,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 60
+        "y": 71
       },
       "id": 183,
       "options": {
@@ -4574,7 +4775,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 62
+        "y": 73
       },
       "id": 14,
       "maxDataPoints": 100,
@@ -4660,7 +4861,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 64
+        "y": 75
       },
       "id": 75,
       "maxDataPoints": 100,
@@ -5024,7 +5225,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 66
+        "y": 77
       },
       "id": 7,
       "options": {
@@ -5414,7 +5615,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 66
+        "y": 77
       },
       "id": 156,
       "options": {
@@ -5697,7 +5898,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 66
+        "y": 77
       },
       "id": 157,
       "options": {
@@ -5917,7 +6118,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 74
+        "y": 85
       },
       "id": 13,
       "options": {
@@ -6130,7 +6331,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 74
+        "y": 85
       },
       "id": 216,
       "options": {
@@ -6353,7 +6554,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 74
+        "y": 85
       },
       "id": 174,
       "options": {
@@ -6539,7 +6740,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 82
+        "y": 93
       },
       "id": 168,
       "options": {
@@ -6922,7 +7123,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {
@@ -6951,6 +7152,6 @@
   "timezone": "browser",
   "title": "Quilibrium Dashboard",
   "uid": "xfpJB9FGz",
-  "version": 26,
+  "version": 29,
   "weekStart": "monday"
 }
