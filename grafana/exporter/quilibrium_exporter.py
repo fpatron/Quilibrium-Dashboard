@@ -33,6 +33,8 @@ unclaimed_balance_metric = Gauge('quilibrium_unclaimed_balance', 'Unclaimed bala
 peer_store_count_metric = Gauge('quilibrium_peer_store_count', 'Peers in store', ['peer_id', 'hostname'], registry=registry)
 network_peer_count_metric = Gauge('quilibrium_network_peer_count', 'Network peer count', ['peer_id', 'hostname'], registry=registry)
 proof_increment_metric = Gauge('quilibrium_proof_increment', 'Proof increment', ['peer_id', 'hostname'], registry=registry)
+ring_metric = Gauge('quilibrium_ring', 'Ring', ['peer_id', 'hostname'], registry=registry)
+seniority_metric = Gauge('quilibrium_seniority', 'Seniority', ['peer_id', 'hostname'], registry=registry)
 
 # Function to find main node binary
 def find_node_binary():
@@ -72,11 +74,19 @@ def fetch_data_from_node():
             
             unclaimed_balance_match = re.search(r'Owned balance: ([\d\.]+) (\S+)', output)
             unclaimed_balance = float(unclaimed_balance_match.group(1)) if unclaimed_balance_match else 0
+                        
+            ring_match = re.search(r'Prover Ring: (\d+)', output)
+            ring = int(ring_match.group(1)) if ring_match else -1
+            
+            seniority_match = re.search(r'Seniority: (\d+)', output)
+            seniority = int(seniority_match.group(1)) if seniority_match else 0
             
             hostname = socket.gethostname()
             
             peer_score_metric.labels(peer_id=peer_id, hostname=hostname).set(peer_score)
             unclaimed_balance_metric.labels(peer_id=peer_id, hostname=hostname).set(unclaimed_balance)
+            ring_metric.labels(peer_id=peer_id, hostname=hostname).set(ring)
+            seniority_metric.labels(peer_id=peer_id, hostname=hostname).set(seniority)
 
         return peer_id, hostname
 
@@ -130,6 +140,8 @@ def metrics():
     peer_store_count_metric.clear()
     network_peer_count_metric.clear()
     proof_increment_metric.clear()
+    ring_metric.clear()
+    seniority_metric.clear()
     
     peer_id, hostname = fetch_data_from_node()
     if peer_id and hostname:
