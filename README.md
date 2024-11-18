@@ -11,8 +11,6 @@ It is preferable to have your own Grafana server for monitoring your nodes. If y
 To make the dashboard work, you need:
 * Grafana (dashboard)
 * Victoria Metrics (metrics service)
-* Loki (logs service)
-
 
 ## Quick start
 
@@ -215,7 +213,7 @@ Go to your Grafana instance
     * Note: By default, only installed plugins are displayed. Switch to "All" mode (top right).
     * Search for the Infinity plugin and install it
 
-2. Add a datasource for Infinity, Loki and Prometheus
+2. Add a datasource for Infinity and Prometheus
     * Go to Home > Data sources
     * Click on the "Add new data sources" button
     * Search for "Infinity"
