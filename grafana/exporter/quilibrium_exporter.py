@@ -32,9 +32,12 @@ max_frame_metric = Gauge('quilibrium_max_frame', 'Max frame of the node', ['peer
 unclaimed_balance_metric = Gauge('quilibrium_unclaimed_balance', 'Unclaimed balance of the node', ['peer_id', 'hostname'], registry=registry)
 peer_store_count_metric = Gauge('quilibrium_peer_store_count', 'Peers in store', ['peer_id', 'hostname'], registry=registry)
 network_peer_count_metric = Gauge('quilibrium_network_peer_count', 'Network peer count', ['peer_id', 'hostname'], registry=registry)
-proof_increment_metric = Gauge('quilibrium_proof_increment', 'Proof increment', ['peer_id', 'hostname'], registry=registry)
 ring_metric = Gauge('quilibrium_ring', 'Ring', ['peer_id', 'hostname'], registry=registry)
 seniority_metric = Gauge('quilibrium_seniority', 'Seniority', ['peer_id', 'hostname'], registry=registry)
+creating_data_proof_metric = Gauge('quilibrium_creating_data_proof', 'Creating data proof', ['peer_id', 'hostname'], registry=registry)
+submitted_data_proof_metric = Gauge('quilibrium_submitted_data_proof', 'Submitted data proof', ['peer_id', 'hostname'], registry=registry)
+active_workers_metric = Gauge('quilibrium_active_workers', 'Active workers', ['peer_id', 'hostname'], registry=registry)
+proof_increment_metric = Gauge('quilibrium_proof_increment', 'Proof increment', ['peer_id', 'hostname'], registry=registry)
 
 # Function to find main node binary
 def find_node_binary():
@@ -74,9 +77,6 @@ def fetch_data_from_node():
             
             unclaimed_balance_match = re.search(r'Owned balance: ([\d\.]+) (\S+)', output)
             unclaimed_balance = float(unclaimed_balance_match.group(1)) if unclaimed_balance_match else 0
-                        
-            ring_match = re.search(r'Prover Ring: (\d+)', output)
-            ring = int(ring_match.group(1)) if ring_match else -1
             
             seniority_match = re.search(r'Seniority: (\d+)', output)
             seniority = int(seniority_match.group(1)) if seniority_match else 0
@@ -85,7 +85,6 @@ def fetch_data_from_node():
             
             peer_score_metric.labels(peer_id=peer_id, hostname=hostname).set(peer_score)
             unclaimed_balance_metric.labels(peer_id=peer_id, hostname=hostname).set(unclaimed_balance)
-            ring_metric.labels(peer_id=peer_id, hostname=hostname).set(ring)
             seniority_metric.labels(peer_id=peer_id, hostname=hostname).set(seniority)
 
         return peer_id, hostname
@@ -103,10 +102,14 @@ def fetch_data_from_logs(peer_id, hostname):
         max_frame = 0
         peer_store_count = None
         network_peer_count = None
+        ring = 9999
+        creating_data_proof = None
+        submitted_data_proof = None
+        active_workers = None
         proof_increment = None
 
         for line in reversed(output):
-            if max_frame is 0 and 'frame_number' in line:
+            if max_frame == 0 and 'frame_number' in line:
                 max_frame_match = re.search(r'"frame_number":(\d+)', line)
                 if max_frame_match:
                     max_frame = int(max_frame_match.group(1))
@@ -119,6 +122,26 @@ def fetch_data_from_logs(peer_id, hostname):
                     network_peer_count = int(network_peer_count_match.group(1))
                     peer_store_count_metric.labels(peer_id=peer_id, hostname=hostname).set(peer_store_count)
                     network_peer_count_metric.labels(peer_id=peer_id, hostname=hostname).set(network_peer_count)
+            if ring == 9999 and 'creating data shard ring proof' in line:
+                ring_match = re.search(r'"ring":(\d+)', line)
+                if ring_match:
+                    ring = int(ring_match.group(1))
+                    ring_metric.labels(peer_id=peer_id, hostname=hostname).set(ring)
+            if creating_data_proof is None and 'creating data shard ring proof' in line:
+                creating_data_proof_match = re.search(r'"frame_age":(\d+)', line)
+                if creating_data_proof_match:
+                    creating_data_proof = int(creating_data_proof_match.group(1))
+                    creating_data_proof_metric.labels(peer_id=peer_id, hostname=hostname).set(creating_data_proof)
+            if submitted_data_proof is None and 'submitting data proof' in line:
+                submitted_data_proof_match = re.search(r'"frame_age":(\d+)', line)
+                if submitted_data_proof_match:
+                    submitted_data_proof = int(submitted_data_proof_match.group(1))
+                    submitted_data_proof_metric.labels(peer_id=peer_id, hostname=hostname).set(submitted_data_proof)
+            if active_workers is None and 'active_workers' in line:
+                active_workers_match = re.search(r'"active_workers":(\d+)', line)
+                if active_workers_match:
+                    active_workers = int(active_workers_match.group(1))
+                    active_workers_metric.labels(peer_id=peer_id, hostname=hostname).set(active_workers)
             if proof_increment is None and 'publishing proof batch' in line:
                 proof_increment_match = re.search(r'"increment":(\d+)', line)
                 if proof_increment_match:
@@ -139,9 +162,12 @@ def metrics():
     unclaimed_balance_metric.clear()
     peer_store_count_metric.clear()
     network_peer_count_metric.clear()
-    proof_increment_metric.clear()
     ring_metric.clear()
     seniority_metric.clear()
+    creating_data_proof_metric.clear()
+    submitted_data_proof_metric.clear()
+    active_workers_metric.clear()
+    proof_increment_metric.clear()
     
     peer_id, hostname = fetch_data_from_node()
     if peer_id and hostname:
