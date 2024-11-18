@@ -4,18 +4,6 @@ This project allows you to monitor your Quilibrium nodes directly in Grafana, pr
 
 <img src="dashboard.png" />
 
-## $${\color{red}Important} \space {\color{red}News } \space {\color{red}13/04/2024}$$
-
-The Quilibrium dashboard is a victim of its own success and has reached the allowed quotas for retrieving the price history of Quil on Live Coin Watch.
-
-From now on, you must register your own Live Coin Watch key to track the Quil price in dollars.
-To do this:
-
-* Create an account on Live Coin Watch
-* Go to this page: https://www.livecoinwatch.com/tools/api
-* Copy your API key 
-* Register it on the dashboard, at the top left corner
-
 ## Prerequisites
 
 It is preferable to have your own Grafana server for monitoring your nodes. If you have a few nodes (maximum 5), you can use Grafana Cloud which will provide you with the necessary stack [https://grafana.com/](https://grafana.com/)
@@ -29,13 +17,13 @@ To make the dashboard work, you need:
 ## Quick start
 
 1. Install grafana server: follow instructions [here](#install_grafana)
-2. Install alloy agent on your nodes **<span style="color:red">(this only works on Ubuntu 22.04 and Debian 12)</span>** 
+2. Install alloy agent on your nodes **<span style="color:red">(this only works on Ubuntu 22.04 / Debian 12 and above)</span>** 
 ```
 bash <(wget -qO- https://raw.githubusercontent.com/fpatron/Quilibrium-Dashboard/master/grafana/exporter/install_linux.sh)
 ```
 3. Import grafana Dashboard: follow instructions [here](#import_dashboard)
 
-## Installing Grafana / Victoria Metrics / Loki <a id='install_grafana'></a>
+## Installing Grafana / Victoria Metrics <a id='install_grafana'></a>
 
 You have multiple choices to create your Grafana instance:
 
@@ -120,7 +108,7 @@ sudo systemctl stop quilibrium
 # Restart the node:
 sudo systemctl restart quilibrium
 # Follow the logs:
-journalctl -u quilibrium -f
+journalctl -fu quilibrium
 ```
 
 Note: Your node will now start automatically in case of a crash and at every server reboot.
@@ -138,6 +126,11 @@ It is necessary to install the custom node exporter on each node you want to mon
 cd ~/quilibrium/exporter
 wget https://github.com/fpatron/Quilibrium-Dashboard/raw/master/grafana/exporter/quilibrium_exporter.py
 wget https://github.com/fpatron/Quilibrium-Dashboard/raw/master/grafana/exporter/requirements.txt
+```
+* Create .env file with these parameters
+```
+node_path=/path_to_your_node_directory (ie: /home/fpa/quilibrium/ceremonyclient/node)
+service_name=quilibrium
 ```
 * Go to your node directory (/home/user/quilibrium/ceremonyclient/node for ie)
 * Prepare python environment
@@ -202,12 +195,8 @@ Replace the following tags with your own information:
 * <PROMETHEUS_USERNAME> (optional)
 * <PROMETHEUS_PASSWORD> (optional)
 
-* <LOKI_ENDPOINT> (eg:  http://X.X.X.X:3100/loki/api/v1/push)
-* <LOKI_USERNAME> (optional)
-* <LOKI_PASSWORD> (optional)
-
-If you use the Grafana Cloud suite, you will need to generate an API key for Prometheus and Loki.
-Replace the Prometheus and Loki passwords with this key.
+If you use the Grafana Cloud suite, you will need to generate an API key for Prometheus.
+Replace the Prometheus password with this key.
 
 Restart alloy 
 
@@ -235,10 +224,6 @@ Go to your Grafana instance
     * Search for "Prometheus"
     * Connection : Prometheus URL : http://192.168.X.X:9090    (put the IP of the computer running docker)
     * Click on "Save & test"
-    * Click on the "Add new data sources" button
-    * Search for "Loki"
-    * Connection : URL : http://192.168.X.X:3100             (put the IP of the computer running docker)
-    * Click on "Save & test"
 
 3. Import the dashboard
     * Go to Home > Dashboard
@@ -247,6 +232,10 @@ Go to your Grafana instance
     * Upload the dashboard in JSON format
     * Select the various datasources
 
+4. Create an account on Live Coin Watch
+    * Go to this page: https://www.livecoinwatch.com/tools/api
+    * Copy your API key
+    * Register it on the dashboard, at the top left corner
 
 Once everything is set up, wait at least 30 minutes to get good metrics on your dashboard :)
 
