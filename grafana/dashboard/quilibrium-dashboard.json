@@ -1160,7 +1160,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance[12h]) * 2)",
+          "expr": "sum(predict_linear((quilibrium_unclaimed_balance>0)[24h], 86400) - quilibrium_unclaimed_balance)",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1208,7 +1208,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -1329,7 +1329,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance[12h]) * 2 * 30)",
+          "expr": "sum(predict_linear((quilibrium_unclaimed_balance>0)[24h], 86400 * 30) - quilibrium_unclaimed_balance)",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1473,7 +1473,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance[12h]) * 2) * $quil_price",
+          "expr": "sum(predict_linear((quilibrium_unclaimed_balance>0)[24h], 86400) - quilibrium_unclaimed_balance) * $quil_price",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1545,7 +1545,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(quilibrium_unclaimed_balance[12h]) * 2 * 30) * $quil_price",
+          "expr": "sum(predict_linear((quilibrium_unclaimed_balance>0)[24h], 86400 * 30) - quilibrium_unclaimed_balance) * $quil_price",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -1604,7 +1604,24 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #K"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -1655,7 +1672,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance[12h]) * 2",
+          "expr": "(predict_linear((quilibrium_unclaimed_balance>0)[24h], 86400) - quilibrium_unclaimed_balance)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1670,7 +1687,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance[12h]) * 2 * 30",
+          "expr": "(predict_linear((quilibrium_unclaimed_balance>0)[24h], 86400 * 30) - quilibrium_unclaimed_balance)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1701,7 +1718,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance[12h]) * 2 * $quil_price",
+          "expr": "(predict_linear((quilibrium_unclaimed_balance>0)[24h], 86400) - quilibrium_unclaimed_balance) * $quil_price",
           "format": "table",
           "fullMetaSearch": false,
           "hide": false,
@@ -1734,7 +1751,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "increase(quilibrium_unclaimed_balance[12h]) * 2 * 30 * $quil_price",
+          "expr": "(predict_linear((quilibrium_unclaimed_balance>0)[24h], 86400 * 30) - quilibrium_unclaimed_balance) * $quil_price",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1786,6 +1803,21 @@
           "legendFormat": "__auto",
           "range": false,
           "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_VICTORIAMETRICS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "delta(quilibrium_seniority[$__range])/10/delta(quilibrium_max_frame[$__range])",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "K"
         }
       ],
       "title": "Quilibrium",
@@ -1803,6 +1835,7 @@
             "excludeByName": {
               "Time 1": true,
               "Time 10": true,
+              "Time 11": true,
               "Time 2": true,
               "Time 3": true,
               "Time 4": true,
@@ -1819,6 +1852,7 @@
               "__name__ 5": true,
               "instance 1": true,
               "instance 10": true,
+              "instance 11": true,
               "instance 2": true,
               "instance 3": true,
               "instance 4": true,
@@ -1829,6 +1863,7 @@
               "instance 9": true,
               "job 1": true,
               "job 10": true,
+              "job 11": true,
               "job 2": true,
               "job 3": true,
               "job 4": true,
@@ -1838,6 +1873,7 @@
               "job 8": true,
               "job 9": true,
               "peer_id 10": true,
+              "peer_id 11": true,
               "peer_id 2": true,
               "peer_id 3": true,
               "peer_id 4": true,
@@ -1850,6 +1886,8 @@
             "includeByName": {},
             "indexByName": {
               "Time 1": 1,
+              "Time 10": 50,
+              "Time 11": 57,
               "Time 2": 15,
               "Time 3": 20,
               "Time 4": 24,
@@ -1867,12 +1905,17 @@
               "Value #G": 11,
               "Value #H": 12,
               "Value #I": 13,
+              "Value #J": 56,
+              "Value #K": 55,
               "__name__ 1": 2,
               "__name__ 2": 16,
               "__name__ 3": 41,
               "__name__ 4": 46,
+              "__name__ 5": 51,
               "hostname": 0,
               "instance 1": 3,
+              "instance 10": 52,
+              "instance 11": 58,
               "instance 2": 17,
               "instance 3": 21,
               "instance 4": 25,
@@ -1882,6 +1925,8 @@
               "instance 8": 42,
               "instance 9": 47,
               "job 1": 4,
+              "job 10": 53,
+              "job 11": 59,
               "job 2": 18,
               "job 3": 22,
               "job 4": 26,
@@ -1891,6 +1936,8 @@
               "job 8": 43,
               "job 9": 48,
               "peer_id 1": 5,
+              "peer_id 10": 54,
+              "peer_id 11": 60,
               "peer_id 2": 19,
               "peer_id 3": 23,
               "peer_id 4": 27,
@@ -1911,6 +1958,7 @@
               "Value #H": "Ring",
               "Value #I": "Senioriy",
               "Value #J": "Active workers",
+              "Value #K": "Landing proof rate",
               "hostname": "Hostname",
               "instance 5": "",
               "job 2": "",
@@ -1956,7 +2004,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -2054,7 +2102,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -2152,7 +2200,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -2250,7 +2298,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -2361,7 +2409,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -2472,7 +2520,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -2576,7 +2624,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -3760,7 +3808,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-12h",
     "to": "now"
   },
   "timepicker": {
@@ -3789,6 +3837,6 @@
   "timezone": "browser",
   "title": "Quilibrium Dashboard",
   "uid": "xfpJB9FGz",
-  "version": 61,
+  "version": 65,
   "weekStart": "monday"
 }
