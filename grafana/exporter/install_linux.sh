@@ -178,6 +178,8 @@ configure_grafana_alloy() {
 
     # Restart Alloy service
     echo "Restarting Grafana Alloy service..."
+    sudo systemctl daemon-reload
+    sudo systemctl enable alloy
     sudo systemctl restart alloy
 }
 
