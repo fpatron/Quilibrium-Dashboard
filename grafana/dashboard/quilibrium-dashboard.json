@@ -2377,7 +2377,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "delta(quilibrium_seniority)==10",
+          "expr": "delta(quilibrium_seniority/10)==1",
           "instant": false,
           "legendFormat": "{{hostname}}",
           "range": true,
