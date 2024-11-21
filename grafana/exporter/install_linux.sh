@@ -8,21 +8,6 @@ ask() {
     echo "${input:-$default}"
 }
 
-# Function to check if a directory contains an executable file starting with "node-"
-is_valid_node_path() {
-    local path=$1
-     if [[ -d $path ]]; then
-        for file in $(ls $path | grep -E '^node-.*linux-amd64$'); do
-            file="$path/$file"
-            if [[ -x "$file" && -f "$file" ]]; then
-                return 0
-            else
-                return 1
-            fi
-        done
-    fi
-}
-
 # Function to check if a string is a valid URL
 is_valid_url() {
     local url=$1
@@ -65,9 +50,10 @@ validate_os() {
 }
 
 # Validate the node path
-validate_node_path() {
-    if ! is_valid_node_path "$node_path"; then
-        echo "Error: The path '$node_path' does not exist or does not contain a Quilibrium node executable file."
+validate_api_port() {
+    curl -s -X POST http://127.0.0.1:$api_port/quilibrium.node.node.pb.NodeService/GetNodeInfo > /dev/null 2>&1
+    if  [ $? -ne 0 ]; then
+        echo "Error: Quilibrium REST server is not reachable"
         exit 1
     fi
 }
@@ -122,10 +108,10 @@ install_quilibrium_exporter() {
     venv/bin/pip install -r requirements.txt
 
     # Create the .env file with the necessary parameters
-    echo "Creating .env file with service_name and node_path..."
+    echo "Creating .env file with service_name and api_port..."
     cat <<EOL > .env
 service_name=$service_name
-node_path=$node_path
+api_port=$api_port
 EOL
 
     # Create the systemd service file
@@ -170,9 +156,6 @@ configure_grafana_alloy() {
     sed -i "s|<PROMETHEUS_ENDPOINT>|$prometheus_url|g" /tmp/config.alloy
     sed -i "s|<PROMETHEUS_USERNAME>|$prometheus_user|g" /tmp/config.alloy
     sed -i "s|<PROMETHEUS_PASSWORD>|$prometheus_api_key|g" /tmp/config.alloy
-    sed -i "s|<LOKI_ENDPOINT>|$loki_url|g" /tmp/config.alloy
-    sed -i "s|<LOKI_USERNAME>|$loki_user|g" /tmp/config.alloy
-    sed -i "s|<LOKI_PASSWORD>|$loki_api_key|g" /tmp/config.alloy
 
     sudo mv /tmp/config.alloy /etc/alloy/config.alloy
 
@@ -229,15 +212,11 @@ main() {
     validate_os
 
     # Ask for input
-    node_path=$(ask "What is the path to node quilibrium" "ex: /home/user/quilibrium/ceremonyclient/node")
-    validate_node_path
+    api_port=$(ask "What is the port of quilibrium API" "default: 8338")
+    validate_api_port
 
     service_name=$(ask "What is the name of the service" "quilibrium")
     validate_service_name
-
-    loki_url=$(ask "Please enter the Loki URL" "ex: http://X.X.X.X:3100/loki/api/v1/push")
-    loki_user=$(ask "Please enter the Loki user (optional)" "")
-    loki_api_key=$(ask "Please enter the Loki password (optional)" "")
 
     prometheus_url=$(ask "Please enter the Prometheus URL" "ex: http://X.X.X.X:9090/api/v1/write")
     prometheus_user=$(ask "Please enter the Prometheus user (optional)" "")
@@ -246,11 +225,8 @@ main() {
     validate_urls
 
     # Print out the collected information
-    echo "Node Quilibrium path: $node_path"
+    echo "Quilibrium API port: $api_port"
     echo "Service name: $service_name"
-    echo "Loki URL: $loki_url"
-    echo "Loki user: $loki_user"
-    echo "Loki password: $loki_api_key"
     echo "Prometheus URL: $prometheus_url"
     echo "Prometheus user: $prometheus_user"
     echo "Prometheus password: $prometheus_api_key"

@@ -127,7 +127,7 @@ wget https://github.com/fpatron/Quilibrium-Dashboard/raw/master/grafana/exporter
 ```
 * Create .env file with these parameters
 ```
-node_path=/path_to_your_node_directory (ie: /home/fpa/quilibrium/ceremonyclient/node)
+api_port=8338
 service_name=quilibrium
 ```
 * Go to your node directory (/home/user/quilibrium/ceremonyclient/node for ie)
