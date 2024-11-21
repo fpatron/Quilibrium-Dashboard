@@ -70,7 +70,7 @@ def fetch_data_from_api():
             peer_score = float(node_info.get("peerScore")) if node_info.get("peerScore") else 0
             max_frame =  int(node_info.get("maxFrame")) if node_info.get("maxFrame") else 0
             seniority =  int(decode_value(node_info.get("peerSeniority"))) if node_info.get("peerSeniority") else 0
-            ring =  int(node_info.get("proverRing")) if node_info.get("proverRing") else -1
+            ring =  int(node_info.get("proverRing"))
             active_workers =  int(node_info.get("workers")) if node_info.get("workers") else 0
         else:
             print(f"Unable to fetch API {api_url}/GetNodeInfo")
