@@ -61,7 +61,6 @@ def fetch_data_from_api():
         seniority = 0
         ring = -1
         active_workers = 0
-        network_peer_count = 0
                 
         node_info_response = requests.post(f"{api_url}/GetNodeInfo")
         if node_info_response.status_code == 200:
@@ -88,13 +87,6 @@ def fetch_data_from_api():
         else:
             print(f"Unable to fetch API {api_url}/GetTokenInfo")
             
-        network_info_response = requests.post(f"{api_url}/GetNetworkInfo")
-        if network_info_response.status_code == 200:
-            network_info = network_info_response.json()
-            network_peer_count = len(network_info.get("networkInfo")) if network_info.get("networkInfo") else 0
-        else:
-            print(f"Unable to fetch API {api_url}/GetNetworkInfo")        
-        
         if peer_id is not None and hostname is not None:
             peer_score_metric.labels(peer_id=peer_id, hostname=hostname).set(peer_score)
             max_frame_metric.labels(peer_id=peer_id, hostname=hostname).set(max_frame)
@@ -102,7 +94,6 @@ def fetch_data_from_api():
             seniority_metric.labels(peer_id=peer_id, hostname=hostname).set(seniority)
             ring_metric.labels(peer_id=peer_id, hostname=hostname).set(ring)
             active_workers_metric.labels(peer_id=peer_id, hostname=hostname).set(active_workers)
-            network_peer_count_metric.labels(peer_id=peer_id, hostname=hostname).set(network_peer_count)
 
         return peer_id, hostname
 
@@ -113,9 +104,10 @@ def fetch_data_from_api():
 # Function to fetch data from logs
 def fetch_data_from_logs(peer_id, hostname):
     try:
-        peer_store_count = None
-        creating_data_proof = None
-        submitted_data_proof = None
+        peer_store_count = 0
+        network_peer_count = 0
+        creating_data_proof = 0
+        submitted_data_proof = 0
 
         if shutil.which("journalctl"):
             result = subprocess.run(['journalctl', '-u', service_name, '--since', '1 hour ago', '--no-pager'], capture_output=True, text=True)
@@ -123,23 +115,29 @@ def fetch_data_from_logs(peer_id, hostname):
                 output = result.stdout.splitlines()
                 if len(output) > 0:
                     for line in reversed(output):
-                        if peer_store_count is None and 'peers in store' in line:
+                        if peer_store_count == 0 and 'peers in store' in line:
                             peer_store_count_match = re.search(r'"peer_store_count":(\d+)', line)
                             if peer_store_count_match:
                                 peer_store_count = int(peer_store_count_match.group(1))
-                        if creating_data_proof is None and 'creating data shard ring proof' in line:
+                        if network_peer_count == 0 and 'peers in store' in line:
+                            network_peer_count_match = re.search(r'"network_peer_count":(\d+)', line)
+                            if network_peer_count_match:
+                                network_peer_count = int(network_peer_count_match.group(1))
+                    
+                        if creating_data_proof == 0 and 'creating data shard ring proof' in line:
                             creating_data_proof_match = re.search(r'"frame_age":(\d+)', line)
                             if creating_data_proof_match:
                                 creating_data_proof = int(creating_data_proof_match.group(1))
-                        if submitted_data_proof is None and 'submitting data proof' in line:
+                        if submitted_data_proof == 0 and 'submitting data proof' in line:
                             submitted_data_proof_match = re.search(r'"frame_age":(\d+)', line)
                             if submitted_data_proof_match:
                                 submitted_data_proof = int(submitted_data_proof_match.group(1))
                         
-                        if (peer_store_count is not None and creating_data_proof is not None and submitted_data_proof is not None):
+                        if (network_peer_count > 0 and peer_store_count > 0 and creating_data_proof > 0 and submitted_data_proof > 0):
                             break
 
         peer_store_count_metric.labels(peer_id=peer_id, hostname=hostname).set(peer_store_count)
+        network_peer_count_metric.labels(peer_id=peer_id, hostname=hostname).set(network_peer_count)
         creating_data_proof_metric.labels(peer_id=peer_id, hostname=hostname).set(creating_data_proof)
         submitted_data_proof_metric.labels(peer_id=peer_id, hostname=hostname).set(submitted_data_proof)
 
